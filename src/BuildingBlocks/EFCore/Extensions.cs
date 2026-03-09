@@ -23,7 +23,7 @@ public static class Extensions
     }
 
     public static IApplicationBuilder UseMigration<TContext>(this IApplicationBuilder app)
-    where TContext : DbContext, IDbContext
+        where TContext : DbContext, IDbContext
     {
         MigrateAsync<TContext>(app.ApplicationServices).GetAwaiter().GetResult();
 
@@ -33,7 +33,7 @@ public static class Extensions
     }
 
     private static async Task MigrateAsync<TContext>(IServiceProvider serviceProvider)
-   where TContext : DbContext, IDbContext
+        where TContext : DbContext, IDbContext
     {
         await using var scope = serviceProvider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<TContext>();

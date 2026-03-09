@@ -24,7 +24,7 @@ public record Recipient(Guid UserId, string? Email);
     {
         InApp = 0,
         Email,
-        Push,
+        Web,
     }
     public enum NotificationPriority
     {

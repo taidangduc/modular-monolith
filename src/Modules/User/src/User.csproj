@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="GrpcServer\Protos\user.proto" />
+    <None Remove="Grpc\Protos\user.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="GrpcServer\Protos\user.proto" GrpcServices="Both" />
+    <Protobuf Include="Grpc\Protos\user.proto" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\EventHandlers\" />
+    <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Infrastructure\Repositories\" />
+    <Folder Include="IntegrationEvents\Events\" />
   </ItemGroup>
 
 </Project>

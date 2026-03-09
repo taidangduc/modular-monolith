@@ -1,7 +1,7 @@
 using Api.Extensions;
 using Identity.Extensions.Infrastructure;
 using Notification.Infrastructure.Extensions;
-using User.Extensions.Infrastructure;
+using User.Extensions;
 using Wallet.Extensions.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
