@@ -1,5 +1,5 @@
 using Api.Extensions;
-using Identity.Extensions.Infrastructure;
+using Identity.Extensions;
 using Notification.Infrastructure.Extensions;
 using User.Extensions;
 using Wallet.Extensions.Infrastructure;
