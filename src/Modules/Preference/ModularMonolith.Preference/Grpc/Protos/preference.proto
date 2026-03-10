@@ -1,0 +1,31 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ModularMonolith.Preference.Grpc.Services";
+
+package preferenece;
+
+service PreferenceGrpcService{
+	rpc GetPreference(GetPreferenceRequest) returns (GetPreferenceResponse);
+}
+
+message GetPreferenceRequest{
+	string Id = 1;
+}
+
+message GetPreferenceResponse{
+	string UserId = 1;
+	repeated ChannelPreference Preference = 2;
+}
+
+message ChannelPreference{
+	ChannelType channel = 1;
+	bool IsOptOut = 2;
+}
+
+enum ChannelType{
+	INAPP = 0;
+	EMAIL = 1;
+	WEB = 2;
+}

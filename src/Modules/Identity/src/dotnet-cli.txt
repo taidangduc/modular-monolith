@@ -1,3 +1,0 @@
-﻿dotnet ef migrations Initial_Database -Context IdentityDbContext -Project Identity -StartupProject Api -o Data\Migrations
-
-dotnet ef database update -Context IdentityDbContext

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Infrastructure\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Async" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\ModularMonolith.BuildingBlocks.csproj" />
+  </ItemGroup>
+
+</Project>
