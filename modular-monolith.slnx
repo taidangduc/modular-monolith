@@ -5,20 +5,17 @@
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/ModularMonolith.BuildingBlocks.csproj">
-      <Build Solution="Debug|*" Project="false" />
     </Project>
   </Folder>
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Identity/">
     <Project Path="src/Modules/Identity/ModularMonolith.Identity.UnitTests/ModularMonolith.Identity.UnitTests.csproj" Id="64f53139-e86f-4a22-8af2-d14336358080" />
-    <Project Path="src/Modules/Identity/ModularMonolith.Identity/ModularMonolith.Identity.csproj">
-      <Build Solution="Debug|*" Project="false" />
+    <Project Path="src/Modules/Identity/ModularMonolith.Identity/ModularMonolith.Identity.csproj">   
     </Project>
   </Folder>
   <Folder Name="/src/Modules/Notification/">
     <Project Path="src/Modules/Notification/ModularMonolith.Notification.UnitTests/ModularMonolith.Notification.UnitTests.csproj" Id="47a609c3-9ad7-4348-81ad-ac0d827367de" />
     <Project Path="src/Modules/Notification/ModularMonolith.Notification/ModularMonolith.Notification.csproj">
-      <Build Solution="Debug|*" Project="false" />
     </Project>
   </Folder>
   <Folder Name="/src/Modules/Post/">
@@ -28,7 +25,6 @@
   <Folder Name="/src/Modules/Preference/">
     <Project Path="src/Modules/Preference/ModularMonolith.Preference.UnitTests/ModularMonolith.Preference.UnitTests.csproj" Id="2c811212-e41b-4079-90b5-5055ef8faf9f" />
     <Project Path="src/Modules/Preference/ModularMonolith.Preference/ModularMonolith.Preference.csproj">
-      <Build Solution="Debug|*" Project="false" />
     </Project>
   </Folder>
   <Folder Name="/src/Modules/Profile/">
