@@ -1,8 +1,8 @@
-﻿using BuildingBlocks.Exception;
+﻿using ModularMonolith.BuildingBlocks.Exceptions;
 
 namespace ModularMonolith.Profile.Domain.Exceptions;
 
-public class ProfileNotFoundException : AppException
+public class ProfileNotFoundException : NotFoundException
 {
     public ProfileNotFoundException() : base($"Not found profile")
     {

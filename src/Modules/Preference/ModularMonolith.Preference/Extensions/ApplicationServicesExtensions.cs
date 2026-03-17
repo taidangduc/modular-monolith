@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.EFCore;
 using BuildingBlocks.Mapster;
-using BuildingBlocks.Masstransit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +17,6 @@ public static class ApplicationServicesExtensions
         builder.Services.AddValidatorsFromAssembly(typeof(PreferenceRoot).Assembly);
         builder.Services.AddCustomMapster();
         builder.Services.AddCustomMediatR();
-
-        builder.Services.AddSingleton<IMasstransitModule, MasstransitExtensions>();
 
         builder.Services.AddGrpc();
 

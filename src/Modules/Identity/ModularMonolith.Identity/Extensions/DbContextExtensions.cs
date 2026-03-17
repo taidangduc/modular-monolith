@@ -1,8 +1,7 @@
-﻿
-using BuildingBlocks.Configuration;
-using BuildingBlocks.EFCore;
+﻿using BuildingBlocks.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.BuildingBlocks.Configuration;
 using ModularMonolith.Identity.Infrastructure;
 
 namespace ModularMonolith.Identity.Extensions;

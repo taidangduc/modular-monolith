@@ -1,5 +1,4 @@
-﻿
-namespace BuildingBlocks.Constants;
+﻿namespace ModularMonolith.BuildingBlocks.Constants;
 
 public static class IdentityConstant
 {

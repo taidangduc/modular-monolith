@@ -1,6 +1,6 @@
-﻿using BuildingBlocks.Contracts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ModularMonolith.BuildingBlocks.Contracts;
 
 namespace ModularMonolith.Preference.Infrastructure.DbConfiguration;
 

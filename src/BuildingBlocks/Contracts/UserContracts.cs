@@ -1,7 +1,7 @@
 ﻿
 using BuildingBlocks.Core.Event;
 
-namespace BuildingBlocks.Contracts;
+namespace ModularMonolith.BuildingBlocks.Contracts;
 
 public record PreferenceCreated(Guid Id) : IIntegrationEvent;
 public record PreferenceUpdated(Guid Id) : IIntegrationEvent;

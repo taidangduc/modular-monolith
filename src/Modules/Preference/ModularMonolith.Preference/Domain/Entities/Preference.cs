@@ -1,5 +1,5 @@
-﻿using BuildingBlocks.Contracts;
-using BuildingBlocks.Core.Model;
+﻿using BuildingBlocks.Core.Model;
+using ModularMonolith.BuildingBlocks.Contracts;
 
 namespace ModularMonolith.Preference.Domain.Entities;
 

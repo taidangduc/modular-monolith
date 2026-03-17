@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Profile.Infrastructure;
 
-public class ProfileDbContext : AppDbContextBase
+public class ProfileDbContext : DbContextBase
 {
     public ProfileDbContext(
         DbContextOptions<ProfileDbContext> options,
-        ILogger<AppDbContextBase>? logger = null,
+        ILogger<DbContextBase>? logger = null,
         ICurrentUserProvider? currentUserProvider = null)
         : base(options, logger, currentUserProvider)
     {

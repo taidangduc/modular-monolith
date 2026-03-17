@@ -1,9 +1,8 @@
-﻿
-using BuildingBlocks.Configuration;
-using BuildingBlocks.Web;
+﻿using BuildingBlocks.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ModularMonolith.BuildingBlocks.Configuration;
 using System.Text;
 namespace BuildingBlocks.Jwt;
 

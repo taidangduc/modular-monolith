@@ -1,6 +1,6 @@
-﻿using BuildingBlocks.Contracts;
-using MassTransit;
+﻿using ModularMonolith.BuildingBlocks.Contracts;
 using ModularMonolith.Preference.Grpc.Services;
+using MassTransit;
 
 namespace ModularMonolith.Notification.IntegrationEvents.EventHandlers;
 

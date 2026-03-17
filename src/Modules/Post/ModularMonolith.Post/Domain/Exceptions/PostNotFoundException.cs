@@ -1,8 +1,8 @@
-using BuildingBlocks.Exception;
+using ModularMonolith.BuildingBlocks.Exceptions;
 
 namespace ModularMonolith.Post.Domain.Exceptions;
 
-public class PostNotFoundException : DomainException
+public class PostNotFoundException : NotFoundException
 {
     public PostNotFoundException() : base("Post not found")
     {

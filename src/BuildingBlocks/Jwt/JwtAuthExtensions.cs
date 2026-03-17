@@ -1,8 +1,8 @@
-﻿using BuildingBlocks.Configuration;
-using BuildingBlocks.Web;
+﻿using BuildingBlocks.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ModularMonolith.BuildingBlocks.Configuration;
 
 namespace BuildingBlocks.Jwt;
 //ref: https://learn.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-5.0#use-authorization-handlers-to-customize-hub-method-authorization

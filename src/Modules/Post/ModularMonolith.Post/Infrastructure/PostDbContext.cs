@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Post.Infrastructure;
 
-public class PostDbContext : AppDbContextBase
+public class PostDbContext : DbContextBase
 {
     public PostDbContext(
         DbContextOptions<PostDbContext> options,
-        ILogger<AppDbContextBase>? logger = null,
+        ILogger<DbContextBase>? logger = null,
         ICurrentUserProvider? currentUserProvider = null)
         : base(options, logger, currentUserProvider)
     {

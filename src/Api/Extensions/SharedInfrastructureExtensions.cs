@@ -1,13 +1,9 @@
-﻿using BuildingBlocks.Core;
-using BuildingBlocks.Hangfire;
-using BuildingBlocks.Jwt;
-using BuildingBlocks.Masstransit;
-using BuildingBlocks.OpenApi;
-using BuildingBlocks.PersistMessageProcessor;
-using BuildingBlocks.Signalr;
+﻿using BuildingBlocks.Jwt;
 using BuildingBlocks.Web;
 using FluentValidation.AspNetCore;
-using Hangfire;
+using MassTransit;
+using Microsoft.OpenApi.Models;
+using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity;
 using ModularMonolith.Notification;
 using System.Reflection;
@@ -30,9 +26,7 @@ public static class SharedInfrastructureExtensions
         builder.Services.AddJwtAuth();
 
         //persistMessage
-        builder.Services.AddPersistMessageProcessor();
-        //signalr connection
-        builder.Services.AddSignalRConnection();
+        //builder.Services.AddPersistMessageProcessor();
 
         builder.Services.AddControllers();
        
@@ -40,37 +34,70 @@ public static class SharedInfrastructureExtensions
         builder.Services.AddFluentValidation();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
-        builder.Services.AddCustomSwagger();
-        builder.Services.AddSingleton<ISignalrHub, SignalrHub>();
-        builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
-        builder.Services.AddHangfireStorageMssql();
+        builder.Services.AddSwaggerGen(
+            options => {
 
-        builder.Services.AddCustomMasstransit(
-            TransportType.InMemory,
-            assemblies);
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "MyApi",
+                    Version = "v1",
+                });
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Name = "Authentization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer",
+                    Description = "Enter 'Bearer' [space] and your token in the text input below.\n\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            In = ParameterLocation.Header,
+                            Name = "X-API-KEY",
+                            Type = SecuritySchemeType.ApiKey,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
+        //builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
+        builder.Services.AddEventBusDispatcher();
+
+        //builder.Services.AddCustomMasstransit(
+        //    TransportType.InMemory,
+        //    assemblies);
+
+        
 
         //AppDomain.CurrentDomain.GetAssemblies()
         builder.Services.AddMemoryCache();
 
-        builder.Services.AddScoped<IEventMapper>(sp =>
-        {
-            var mappers = new IEventMapper[]
-            {
-                sp.GetRequiredService<IdentityEventMapper>(),
-                sp.GetRequiredService<NotificationEventMapper>()
-            };
-            return new CompositEventMapper(mappers);
-        });
+        //builder.Services.AddScoped<IEventMapper>(sp =>
+        //{
+        //    var mappers = new IEventMapper[]
+        //    {
+        //        sp.GetRequiredService<IdentityEventMapper>(),
+        //        sp.GetRequiredService<NotificationEventMapper>()
+        //    };
+        //    return new CompositEventMapper(mappers);         
+        //});
 
         return builder;
     }
 
     public static WebApplication UseApplicationServices(this WebApplication app)
     {
-        app.MapHub<SignalrHub>("/hubs");
-
-        app.MapHangfireDashboard("/hangfire");
-
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

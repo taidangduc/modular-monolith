@@ -1,8 +1,8 @@
-﻿using BuildingBlocks.Exception;
+﻿using ModularMonolith.BuildingBlocks.Exceptions;
 
 namespace ModularMonolith.Preference.Domain.Exceptions;
 
-public class PreferenceNotFoundException : DomainException
+public class PreferenceNotFoundException : NotFoundException
 {
     public PreferenceNotFoundException() : base("Not found preference")
     {

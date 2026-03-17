@@ -1,8 +1,7 @@
-using BuildingBlocks.Constants;
-using BuildingBlocks.Contracts;
-using BuildingBlocks.Core;
 using BuildingBlocks.Core.CQRS;
 using Microsoft.AspNetCore.Identity;
+using ModularMonolith.BuildingBlocks.Constants;
+using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity.Domain.Entities;
 using ModularMonolith.Identity.Domain.Exceptions;
 
@@ -53,9 +52,9 @@ internal class CreateUserHandler : ICommandHandler<CreateUserCommand, Guid>
             throw new InvalidUserRoleException(string.Join(',', roleResult.Errors.Select(x => x.Description)));
         }
 
-        await _eventDispatcher.SendAsync(
-            new UserCreated(user.Id, user.UserName, user.FirstName + " " + user.LastName,
-                user.Email), cancellationToken: cancellationToken);
+        //await _eventDispatcher.SendAsync(
+        //    new UserCreated(user.Id, user.UserName, user.FirstName + " " + user.LastName,
+        //        user.Email), cancellationToken: cancellationToken);
 
         return user.Id;
     }

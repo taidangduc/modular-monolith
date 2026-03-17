@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Contracts;
+﻿using ModularMonolith.BuildingBlocks.Contracts;
 
 namespace ModularMonolith.Preference.Features;
 

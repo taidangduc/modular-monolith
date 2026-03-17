@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Preference.Infrastructure;
 
-public class PreferenceDbContext : AppDbContextBase
+public class PreferenceDbContext : DbContextBase
 {
     public PreferenceDbContext(
         DbContextOptions<PreferenceDbContext> options,
-        ILogger<AppDbContextBase>? logger = null,
+        ILogger<DbContextBase>? logger = null,
         ICurrentUserProvider? currentUserProvider = null)
         : base(options, logger, currentUserProvider)
     {

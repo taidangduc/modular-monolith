@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.EFCore;
 using BuildingBlocks.Mapster;
-using BuildingBlocks.Masstransit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +13,6 @@ public static class ApplicationServicesExtensions
     {
         builder.Services.AddCustomDbContext<ProfileDbContext>();
        
-        builder.Services.AddSingleton<IMasstransitModule, MasstransitExtensions>();
-
         builder.Services.AddValidatorsFromAssembly(typeof(ProfileRoot).Assembly);
 
         builder.Services.AddCustomMapster();

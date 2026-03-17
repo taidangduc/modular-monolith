@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlocks.Configuration;
+namespace ModularMonolith.BuildingBlocks.Configuration;
 
 public static class ConfigurationExtensions
 {

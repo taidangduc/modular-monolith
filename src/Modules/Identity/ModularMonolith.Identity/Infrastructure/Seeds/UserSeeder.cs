@@ -1,10 +1,11 @@
-using BuildingBlocks.Constants;
-using BuildingBlocks.Contracts;
 using BuildingBlocks.Core;
 using BuildingBlocks.EFCore;
 using ModularMonolith.Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ModularMonolith.BuildingBlocks.Contracts;
+using ModularMonolith.BuildingBlocks.Constants;
+using ModularMonolith.BuildingBlocks.EventBus;
 
 
 namespace ModularMonolith.Identity.Infrastructure.Seeds;
@@ -64,14 +65,14 @@ public class UserSeeder : IDataSeeder
                 {
                     await _userManager.AddToRoleAsync(InitialData.Users.First(), IdentityConstant.Role.Admin);
 
-                    await _eventDispatcher.SendAsync(
-                        new UserCreated(
-                            InitialData.Users.First().Id,
-                            InitialData.Users.First().UserName!,
-                            InitialData.Users.First().FirstName +
-                            " " +
-                            InitialData.Users.First().LastName,
-                            InitialData.Users.First().Email!));
+                    //await _eventDispatcher.SendAsync(
+                    //    new UserCreated(
+                    //        InitialData.Users.First().Id,
+                    //        InitialData.Users.First().UserName!,
+                    //        InitialData.Users.First().FirstName +
+                    //        " " +
+                    //        InitialData.Users.First().LastName,
+                    //        InitialData.Users.First().Email!));
                 }
             }
 
@@ -83,14 +84,14 @@ public class UserSeeder : IDataSeeder
                 {
                     await _userManager.AddToRoleAsync(InitialData.Users.Last(), IdentityConstant.Role.User);
 
-                    await _eventDispatcher.SendAsync(
-                          new UserCreated(
-                              InitialData.Users.Last().Id,
-                              InitialData.Users.Last().UserName!,
-                              InitialData.Users.Last().FirstName +
-                              " " +
-                              InitialData.Users.Last().LastName,
-                              InitialData.Users.Last().Email!));
+                    //await _eventDispatcher.SendAsync(
+                    //      new UserCreated(
+                    //          InitialData.Users.Last().Id,
+                    //          InitialData.Users.Last().UserName!,
+                    //          InitialData.Users.Last().FirstName +
+                    //          " " +
+                    //          InitialData.Users.Last().LastName,
+                    //          InitialData.Users.Last().Email!));
                 }
             }
         }

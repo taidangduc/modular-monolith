@@ -3,20 +3,18 @@
   <Folder Name="/src/Api/">
     <Project Path="src/Api/ModularMonolith.Api.csproj" />
   </Folder>
+  <Folder Name="/src/Aspire/" />
   <Folder Name="/src/BuildingBlocks/">
-    <Project Path="src/BuildingBlocks/ModularMonolith.BuildingBlocks.csproj">
-    </Project>
+    <Project Path="src/BuildingBlocks/ModularMonolith.BuildingBlocks.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Identity/">
     <Project Path="src/Modules/Identity/ModularMonolith.Identity.UnitTests/ModularMonolith.Identity.UnitTests.csproj" Id="64f53139-e86f-4a22-8af2-d14336358080" />
-    <Project Path="src/Modules/Identity/ModularMonolith.Identity/ModularMonolith.Identity.csproj">   
-    </Project>
+    <Project Path="src/Modules/Identity/ModularMonolith.Identity/ModularMonolith.Identity.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Notification/">
     <Project Path="src/Modules/Notification/ModularMonolith.Notification.UnitTests/ModularMonolith.Notification.UnitTests.csproj" Id="47a609c3-9ad7-4348-81ad-ac0d827367de" />
-    <Project Path="src/Modules/Notification/ModularMonolith.Notification/ModularMonolith.Notification.csproj">
-    </Project>
+    <Project Path="src/Modules/Notification/ModularMonolith.Notification/ModularMonolith.Notification.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Post/">
     <Project Path="src/Modules/Post/ModularMonolith.Post.UnitTests/ModularMonolith.Post.UnitTests.csproj" />
@@ -24,8 +22,7 @@
   </Folder>
   <Folder Name="/src/Modules/Preference/">
     <Project Path="src/Modules/Preference/ModularMonolith.Preference.UnitTests/ModularMonolith.Preference.UnitTests.csproj" Id="2c811212-e41b-4079-90b5-5055ef8faf9f" />
-    <Project Path="src/Modules/Preference/ModularMonolith.Preference/ModularMonolith.Preference.csproj">
-    </Project>
+    <Project Path="src/Modules/Preference/ModularMonolith.Preference/ModularMonolith.Preference.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Profile/">
     <Project Path="src/Modules/Profile/ModularMonolith.Profile.UnitTests/ModularMonolith.Profile.UnitTests.csproj" Id="23bdac0b-c1a0-46af-99d7-853ff0623349" />

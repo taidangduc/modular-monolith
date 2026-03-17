@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 using ModularMonolith.Notification.Domain.Entities;
 
 namespace ModularMonolith.Notification.Infrastructure;
-public class NotificationDbContext : AppDbContextBase
+public class NotificationDbContext : DbContextBase
 {
     public NotificationDbContext(
         DbContextOptions<NotificationDbContext> options,
-        ILogger<AppDbContextBase>? logger = null,
+        ILogger<DbContextBase>? logger = null,
         ICurrentUserProvider? currentUserProvider = null) : base(options, logger, currentUserProvider)
     {
     }

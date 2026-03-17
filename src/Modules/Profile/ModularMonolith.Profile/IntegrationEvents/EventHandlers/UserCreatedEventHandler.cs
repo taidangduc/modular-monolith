@@ -1,8 +1,9 @@
-﻿using BuildingBlocks.Contracts;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ModularMonolith.BuildingBlocks.Contracts;
 using ModularMonolith.Profile.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ModularMonolith.Profile.IntegrationEvents.EventHandlers;
 
@@ -39,5 +40,15 @@ public class UserCreatedEventHandler : IConsumer<UserCreated>
         await _profileDbContext.Profiles.AddAsync(profile);
 
         await _profileDbContext.SaveChangesAsync();
+    }
+}
+
+[ExcludeFromCodeCoverage]
+internal sealed class UserCreatedEventHandlerDefinition : ConsumerDefinition<UserCreatedEventHandler>
+{
+    public UserCreatedEventHandlerDefinition()
+    {
+       Endpoint(x => x.Name = "user-created");
+       ConcurrentMessageLimit = 1;
     }
 }

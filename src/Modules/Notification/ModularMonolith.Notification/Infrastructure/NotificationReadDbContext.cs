@@ -6,11 +6,11 @@ using ModularMonolith.Notification.Infrastructure.Projections;
 
 namespace ModularMonolith.Notification.Infrastructure;
 
-public class NotificationReadDbContext : AppDbContextBase
+public class NotificationReadDbContext : DbContextBase
 {
     public NotificationReadDbContext(
         DbContextOptions options, 
-        ILogger<AppDbContextBase>? logger = null,
+        ILogger<DbContextBase>? logger = null,
         ICurrentUserProvider? currentUserProvider = null) : base(options, logger, currentUserProvider)
     {
     }
