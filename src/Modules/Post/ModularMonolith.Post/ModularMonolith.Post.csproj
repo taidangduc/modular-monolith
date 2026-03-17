@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Infrastructure\Migrations\**" />
+    <Compile Remove="Infrastructure\Repositories\**" />
+    <EmbeddedResource Remove="Infrastructure\Migrations\**" />
+    <EmbeddedResource Remove="Infrastructure\Repositories\**" />
+    <None Remove="Infrastructure\Migrations\**" />
+    <None Remove="Infrastructure\Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\ModularMonolith.BuildingBlocks.csproj" />
+  </ItemGroup>
+
 </Project>
