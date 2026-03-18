@@ -6,11 +6,11 @@ namespace ModularMonolith.Post.Features.PostLike.Delete;
 
 [ApiController]
 [Route("api/posts/{postId}/like")]
-public class UnlikePostEndpoint : ControllerBase
+public class DeletePostLikeEndpoint : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public UnlikePostEndpoint(IMediator mediator)
+    public DeletePostLikeEndpoint(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -23,7 +23,7 @@ public class UnlikePostEndpoint : ControllerBase
         Guid userId,
         CancellationToken cancellationToken = default)
     {
-        await _mediator.Send(new UnlikePostCommand(postId, userId), cancellationToken);
+        await _mediator.Send(new DeletePostLikeCommand(postId, userId), cancellationToken);
         return NoContent();
     }
 }

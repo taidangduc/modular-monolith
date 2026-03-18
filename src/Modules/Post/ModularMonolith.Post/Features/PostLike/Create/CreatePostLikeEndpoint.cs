@@ -6,11 +6,11 @@ namespace ModularMonolith.Post.Features.PostLike.Create;
 
 [ApiController]
 [Route("api/posts/{postId}/like")]
-public class LikePostEndpoint : ControllerBase
+public class CreatePostLikeEndpoint : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public LikePostEndpoint(IMediator mediator)
+    public CreatePostLikeEndpoint(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -23,7 +23,7 @@ public class LikePostEndpoint : ControllerBase
         Guid userId,
         CancellationToken cancellationToken)
     {
-        var command = new LikePostCommand(postId, userId);
+        var command = new CreatePostLikeCommand(postId, userId);
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }

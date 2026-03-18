@@ -6,18 +6,18 @@ using ModularMonolith.Post.Infrastructure;
 
 namespace ModularMonolith.Post.Features.PostLike.Create;
 
-public record LikePostCommand(Guid PostId, Guid UserId) : ICommand<Guid>;
+public record CreatePostLikeCommand(Guid PostId, Guid UserId) : ICommand<Guid>;
 
-internal class LikePostCommandHandler : ICommandHandler<LikePostCommand, Guid>
+internal class CreatePostLikeCommandHandler : ICommandHandler<CreatePostLikeCommand, Guid>
 {
     private readonly PostDbContext _postDbContext;
 
-    public LikePostCommandHandler(PostDbContext postDbContext)
+    public CreatePostLikeCommandHandler(PostDbContext postDbContext)
     {
         _postDbContext = postDbContext;
     }
 
-    public async Task<Guid> Handle(LikePostCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreatePostLikeCommand request, CancellationToken cancellationToken)
     {
         Guard.Against.Null(request, nameof(request));
 

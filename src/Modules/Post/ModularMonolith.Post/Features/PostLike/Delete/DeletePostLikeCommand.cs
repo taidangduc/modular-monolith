@@ -7,18 +7,18 @@ using ModularMonolith.Post.Infrastructure;
 
 namespace ModularMonolith.Post.Features.PostLike.Delete;
 
-public record UnlikePostCommand(Guid PostId, Guid UserId) : ICommand;
+public record DeletePostLikeCommand(Guid PostId, Guid UserId) : ICommand;
 
-internal class UnlikePostCommandHandler : ICommandHandler<UnlikePostCommand>
+internal class DeletePostLikeCommandHandler : ICommandHandler<DeletePostLikeCommand>
 {
     private readonly PostDbContext _postDbContext;
 
-    public UnlikePostCommandHandler(PostDbContext postDbContext)
+    public DeletePostLikeCommandHandler(PostDbContext postDbContext)
     {
         _postDbContext = postDbContext;
     }
 
-    public async Task<Unit> Handle(UnlikePostCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeletePostLikeCommand request, CancellationToken cancellationToken)
     {
         Guard.Against.Null(request, nameof(request));
 
