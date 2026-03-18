@@ -1,6 +1,5 @@
 ﻿
 using BuildingBlocks.EFCore;
-using BuildingBlocks.Mapster;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +18,6 @@ public static class ApplicationServiceExtensions
 
         builder.Services.AddScoped<NotificationEventMapper>();
        
-        builder.Services.AddCustomMapster(typeof(NotificationRoot).Assembly);
         builder.Services.AddFluentValidation(x => x.RegisterValidatorsFromAssembly(typeof(NotificationRoot).Assembly));
 
         builder.Services.AddCustomMediatR();

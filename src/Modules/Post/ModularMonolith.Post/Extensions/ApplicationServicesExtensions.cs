@@ -1,5 +1,4 @@
 using BuildingBlocks.EFCore;
-using BuildingBlocks.Mapster;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using ModularMonolith.Post.Infrastructure;
@@ -13,7 +12,6 @@ public static class ApplicationServicesExtensions
         builder.Services.AddCustomDbContext<PostDbContext>();
 
         builder.Services.AddValidatorsFromAssembly(typeof(PostRoot).Assembly);
-        builder.Services.AddCustomMapster();
         builder.Services.AddCustomMediatR();
 
         return builder;

@@ -1,8 +1,6 @@
 ﻿using BuildingBlocks.EFCore;
-using BuildingBlocks.Mapster;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using ModularMonolith.Profile.Infrastructure;
 
 namespace ModularMonolith.Profile.Extensions;
@@ -15,7 +13,6 @@ public static class ApplicationServicesExtensions
        
         builder.Services.AddValidatorsFromAssembly(typeof(ProfileRoot).Assembly);
 
-        builder.Services.AddCustomMapster();
         builder.Services.AddCustomMediatR();
 
         return builder;

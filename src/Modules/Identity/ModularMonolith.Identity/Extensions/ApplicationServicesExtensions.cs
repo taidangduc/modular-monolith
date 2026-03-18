@@ -1,6 +1,5 @@
 ﻿
 using BuildingBlocks.EFCore;
-using BuildingBlocks.Mapster;
 using FluentValidation;
 using ModularMonolith.Identity.Infrastructure;
 using ModularMonolith.Identity.Infrastructure.Seeds;
@@ -18,7 +17,6 @@ public static class ApplicationServicesExtensions
         builder.Services.AddScoped<IdentityEventMapper>();
         builder.Services.AddScoped<IDataSeeder, UserSeeder>();
 
-        builder.Services.AddCustomMapster(typeof(IdentityRoot).Assembly);
         builder.Services.AddValidatorsFromAssembly(typeof(IdentityRoot).Assembly);
         builder.Services.AddMediatRCustom();
         

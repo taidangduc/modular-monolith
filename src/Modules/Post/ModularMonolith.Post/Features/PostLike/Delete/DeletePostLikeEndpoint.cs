@@ -18,7 +18,7 @@ public class DeletePostLikeEndpoint : ControllerBase
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Unlike(
+    public async Task<IActionResult> Delete(
         Guid postId,
         Guid userId,
         CancellationToken cancellationToken = default)

@@ -18,7 +18,7 @@ public class CreatePostLikeEndpoint : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Like(
+    public async Task<IActionResult> Create(
         Guid postId,
         Guid userId,
         CancellationToken cancellationToken)

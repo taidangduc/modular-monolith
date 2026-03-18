@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.EFCore;
-using BuildingBlocks.Mapster;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +14,6 @@ public static class ApplicationServicesExtensions
         builder.Services.AddCustomDbContext<PreferenceDbContext>();
 
         builder.Services.AddValidatorsFromAssembly(typeof(PreferenceRoot).Assembly);
-        builder.Services.AddCustomMapster();
         builder.Services.AddCustomMediatR();
 
         builder.Services.AddGrpc();
