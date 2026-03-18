@@ -1,12 +1,13 @@
-using BuildingBlocks.Core.Model;
+using ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 namespace ModularMonolith.Post.Domain.Entities;
 
-public record Post : Aggregate<Guid>
+public class Post : AuditableEntity<Guid>, ISoftDelete, IAggregate
 {
-    public Guid AuthorId { get; private set; }
-    public string Content { get; private set; } = default!;
-    public int LikeCount { get; private set; }
+    public Guid AuthorId { get; set; }
+    public string Content { get; set; }
+    public int LikeCount { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static Post Create(Guid authorId, string content)
     {
@@ -16,24 +17,25 @@ public record Post : Aggregate<Guid>
             AuthorId = authorId,
             Content = content,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
         };
 
         return post;
     }
 
-    public void IncrementLikeCount()
+    public void IncreaseLikeCount()
     {
         LikeCount++;
-        UpdatedAt = DateTime.UtcNow;
+        LastModifiedAt = DateTime.UtcNow;
     }
 
-    public void DecrementLikeCount()
+    public void DecreaseLikeCount()
     {
-        if (LikeCount > 0)
+        if (LikeCount <= 0)
         {
-            LikeCount--;
-            UpdatedAt = DateTime.UtcNow;
+            return;
         }
+
+        LikeCount--;
+        LastModifiedAt = DateTime.UtcNow;
     }
 }

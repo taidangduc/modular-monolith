@@ -1,8 +1,6 @@
-﻿
+﻿using MediatR;
 
-using MediatR;
-
-namespace BuildingBlocks.Core.CQRS;
+namespace ModularMonolith.BuildingBlocks.Core.CQRS;
 
 public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand, Unit>
     where TCommand : ICommand<Unit>

@@ -1,12 +1,4 @@
-﻿
-using BuildingBlocks.Core.Event;
-
-namespace ModularMonolith.BuildingBlocks.Contracts;
-
-public record PreferenceCreated(Guid Id) : IIntegrationEvent;
-public record PreferenceUpdated(Guid Id) : IIntegrationEvent;
-public record ProfileCreated(Guid Id) : IIntegrationEvent;
-public record ProfileUpdated(Guid Id) : IIntegrationEvent;
+﻿namespace ModularMonolith.BuildingBlocks.Contracts;
 
 public record PreferenceDto(ChannelType Channel, bool IsOptOut);
 

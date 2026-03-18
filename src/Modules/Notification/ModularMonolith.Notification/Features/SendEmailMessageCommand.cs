@@ -1,5 +1,5 @@
-﻿using BuildingBlocks.Core.CQRS;
-using MediatR;
+﻿using MediatR;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 
 namespace ModularMonolith.Notification.Features;
 

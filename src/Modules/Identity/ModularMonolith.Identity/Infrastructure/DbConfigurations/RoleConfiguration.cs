@@ -9,6 +9,5 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.ToTable(nameof(Role));
-        builder.Property(x => x.Version).IsConcurrencyToken();
     }
 }

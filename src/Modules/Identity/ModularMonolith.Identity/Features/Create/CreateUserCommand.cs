@@ -1,6 +1,6 @@
-using BuildingBlocks.Core.CQRS;
 using Microsoft.AspNetCore.Identity;
 using ModularMonolith.BuildingBlocks.Constants;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity.Domain.Entities;
 using ModularMonolith.Identity.Domain.Exceptions;
@@ -53,7 +53,7 @@ internal class CreateUserHandler : ICommandHandler<CreateUserCommand, Guid>
         }
 
         //await _eventDispatcher.SendAsync(
-        //    new UserCreated(user.Id, user.UserName, user.FirstName + " " + user.LastName,
+        //    new UserCreatedIntegrationEvent(user.Id, user.UserName, user.FirstName + " " + user.LastName,
         //        user.Email), cancellationToken: cancellationToken);
 
         return user.Id;

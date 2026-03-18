@@ -15,8 +15,7 @@ public static class InitialData
                 LastName = "Mark",
                 UserName = "peter",
                 Email = "peter@test.com",
-                SecurityStamp = Guid.NewGuid().ToString(),
-                Version = 1
+                SecurityStamp = Guid.NewGuid().ToString(),            
              },
             new User()
             {
@@ -26,7 +25,6 @@ public static class InitialData
                 UserName = "mira",
                 Email = "mira@test.com",
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Version = 1
            }
         };      
     }

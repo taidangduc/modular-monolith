@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Core.Event;
-using BuildingBlocks.Core.Model;
-using BuildingBlocks.EFCore;
+﻿using BuildingBlocks.EFCore;
 using ModularMonolith.Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 using System.Reflection;
+using ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 namespace ModularMonolith.Identity.Infrastructure;
 
@@ -85,22 +84,22 @@ public sealed class IdentityDbContext
         });
     }
 
-    public IReadOnlyList<IDomainEvent> GetDomainEvents()
-    {
-        var domainEntities = ChangeTracker
-           .Entries<IAggregate>()
-           .Where(x => x.Entity.DomainEvents.Any())
-           .Select(x => x.Entity)
-           .ToList();
+    //public IReadOnlyList<DomainEvent> GetDomainEvents()
+    //{
+    //    var domainEntities = ChangeTracker
+    //       .Entries<IAggregate>()
+    //       .Where(x => x.Entity.DomainEvents.Any())
+    //       .Select(x => x.Entity)
+    //       .ToList();
 
-        var domainEvents = domainEntities
-            .SelectMany(x => x.DomainEvents)
-            .ToImmutableList();
+    //    var domainEvents = domainEntities
+    //        .SelectMany(x => x.DomainEvents)
+    //        .ToImmutableList();
 
-        domainEntities.ForEach(x => x.ClearDomainEvents());
+    //    domainEntities.ForEach(x => x.ClearDomainEvents());
 
-        return domainEvents.ToImmutableList();
-    }
+    //    return domainEvents.ToImmutableList();
+    //}
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
@@ -145,25 +144,25 @@ public sealed class IdentityDbContext
 
     private void OnBeforeSaving()
     {
-        try
-        {
-            foreach (var entry in ChangeTracker.Entries<IVersion>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        entry.Entity.Version++;
-                        break;
+        //try
+        //{
+        //    foreach (var entry in ChangeTracker.Entries<IVersion>())
+        //    {
+        //        switch (entry.State)
+        //        {
+        //            case EntityState.Modified:
+        //                entry.Entity.Version++;
+        //                break;
 
-                    case EntityState.Deleted:
-                        entry.Entity.Version++;
-                        break;
-                }
-            }
-        }
-        catch (System.Exception ex)
-        {
-            throw new Exception("try for find IVersion", ex);
-        }
+        //            case EntityState.Deleted:
+        //                entry.Entity.Version++;
+        //                break;
+        //        }
+        //    }
+        //}
+        //catch (System.Exception ex)
+        //{
+        //    throw new Exception("try for find IVersion", ex);
+        //}
     }
 }

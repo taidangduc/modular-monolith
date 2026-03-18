@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>37627f83-3f9e-468d-9eaa-239dceda14d6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Repositories\" />
     <Folder Include="Web\Authorization\" />
     <Folder Include="Web\Authentication\" />
     <Folder Include="Web\ExceptionHandlers\" />

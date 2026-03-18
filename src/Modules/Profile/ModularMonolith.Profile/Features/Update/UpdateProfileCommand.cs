@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
-using BuildingBlocks.Core.CQRS;
 using Microsoft.EntityFrameworkCore;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.Profile.Domain.Enums;
 using ModularMonolith.Profile.Infrastructure;
 

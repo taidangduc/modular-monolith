@@ -12,8 +12,6 @@ public class PreferenceConfiguration : IEntityTypeConfiguration<Domain.Entities.
 
         builder.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
 
-        builder.Property(x => x.Version).IsConcurrencyToken();
-
         builder.Property(x => x.Channel)
             .HasDefaultValue(ChannelType.Web)
             .HasConversion(

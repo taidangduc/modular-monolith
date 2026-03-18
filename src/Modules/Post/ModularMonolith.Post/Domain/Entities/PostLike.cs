@@ -1,45 +1,34 @@
-using BuildingBlocks.Core.Model;
+using ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 namespace ModularMonolith.Post.Domain.Entities;
 
-public record PostLike : Entity<Guid>
+public class PostLike : AuditableEntity<Guid>, ISoftDelete, IAggregate
 {
-    public Guid PostId { get; private set; }
-    public Guid UserId { get; private set; }
+    public Guid PostId { get; set; }
+    public Guid UserId { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static PostLike Create(Guid postId, Guid userId)
     {
         var postLike = new PostLike
         {
-            Id = Guid.NewGuid(),
             PostId = postId,
             UserId = userId,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
         };
 
         return postLike;
     }
 
-    public bool Like()
+    public void MarkAsDeleted()
     {
-        if (IsDeleted)
-        {
-            IsDeleted = false;
-            UpdatedAt = DateTime.UtcNow;
-            return true;
-        }
-        return false;
+        IsDeleted = true;
+        LastModifiedAt = DateTime.UtcNow;
     }
 
-    public bool Unlike()
+    public void MarkAsActive()
     {
-        if (!IsDeleted)
-        {
-            IsDeleted = true;
-            UpdatedAt = DateTime.UtcNow;
-            return true;
-        }
-        return false;
+        IsDeleted = false;
+        LastModifiedAt = DateTime.UtcNow;
     }
 }

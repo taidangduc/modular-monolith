@@ -1,5 +1,5 @@
 using Ardalis.GuardClauses;
-using BuildingBlocks.Core.CQRS;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.Post.Infrastructure;
 
 namespace ModularMonolith.Post.Features.Post.Create;

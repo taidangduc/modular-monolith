@@ -1,6 +1,6 @@
 ﻿
-using BuildingBlocks.Core.Event;
+using ModularMonolith.BuildingBlocks.EventBus;
 
 namespace ModularMonolith.BuildingBlocks.Contracts;
 
-public record UserCreated(Guid UserId, string UserName, string Name, string Email) : IIntegrationEvent;
+public record UserCreatedIntegrationEvent(Guid UserId, string UserName, string Name, string Email) : IntegrationEvent;

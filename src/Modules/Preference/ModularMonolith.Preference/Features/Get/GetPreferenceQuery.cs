@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
-using BuildingBlocks.Core.CQRS;
 using Microsoft.EntityFrameworkCore;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.Preference.Domain.Exceptions;
 using ModularMonolith.Preference.Infrastructure;
 
@@ -21,7 +21,7 @@ internal class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, Pre
         Guard.Against.Null(query, nameof(query));
 
         var preference = await _preferenceDbContext.Preferences
-            .Where(x => x.UserId == query.Id && !x.IsDeleted)
+            .Where(x => x.UserId == query.Id)
             .GroupBy(x => x.UserId)
             .Select(g => new PreferenceDto(
                 g.Key,

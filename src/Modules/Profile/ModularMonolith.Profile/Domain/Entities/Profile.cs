@@ -1,43 +1,38 @@
 ﻿
-using BuildingBlocks.Core.Model;
+using ModularMonolith.BuildingBlocks.Core.SeedWork;
 using ModularMonolith.Profile.Domain.Enums;
 
-namespace ModularMonolith.Profile.Domain.Entities
+namespace ModularMonolith.Profile.Domain.Entities;
+
+public class Profile : Entity, IAggregate
 {
-    public record Profile : Aggregate<Guid>
+    public Guid UserId { get; private set; } = default!;
+    public string UserName { get; private set; } = default!;
+    public string Name { get; private set; } = default!;
+    public string Email { get; private set; } = default!;
+    public GenderType GenderType { get; private set; }
+    public int? Age { get; private set; }
+
+    public static Profile Create(Guid userId, string userName, string name, string email)
     {
-        public Guid UserId { get; private set; } = default!;
-        public string UserName { get; private set; } = default!;
-        public string Name { get; private set; } = default!;
-        public string Email { get; private set; } = default!;
-        public GenderType GenderType { get; private set; }
-        public int? Age { get; private set; }
-
-        public static Profile Create(Guid userId, string userName, string name, string email, bool isDeleted = false)
+        var profile = new Profile
         {
-            var profile = new Profile
-            {
-                UserId = userId,
-                UserName = userName,
-                Name = name,
-                Email = email,
-                IsDeleted = isDeleted
-            };
+            UserId = userId,
+            UserName = userName,
+            Name = name,
+            Email = email,
+        };
 
-            return profile;
-        }
-
-        public void Update(Guid userId, string userName, string name, string email, GenderType genderType, int age, bool isDeleted = false)
-        {
-            this.UserId = userId;
-            this.UserName = userName;
-            this.Name = name;
-            this.Email = email;
-            this.GenderType = genderType;
-            this.Age = age;
-            this.IsDeleted = isDeleted;
-        }
+        return profile;
     }
 
-
+    public void Update(Guid userId, string userName, string name, string email, GenderType genderType, int age)
+    {
+        this.UserId = userId;
+        this.UserName = userName;
+        this.Name = name;
+        this.Email = email;
+        this.GenderType = genderType;
+        this.Age = age;
+    }
 }

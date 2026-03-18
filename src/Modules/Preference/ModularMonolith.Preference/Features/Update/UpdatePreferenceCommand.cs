@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
-using BuildingBlocks.Core.CQRS;
 using Microsoft.EntityFrameworkCore;
 using ModularMonolith.BuildingBlocks.Contracts;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.Preference.Infrastructure;
 
 namespace ModularMonolith.Preference.Features.Update;

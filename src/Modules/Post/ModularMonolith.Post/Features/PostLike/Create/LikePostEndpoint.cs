@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace ModularMonolith.Post.Features.PostLike.Create;
 
 [ApiController]
-[Route("api/posts/{postId}/likes")]
-public class CreatePostLikeEndpoint : ControllerBase
+[Route("api/posts/{postId}/like")]
+public class LikePostEndpoint : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public CreatePostLikeEndpoint(IMediator mediator)
+    public LikePostEndpoint(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -18,12 +18,12 @@ public class CreatePostLikeEndpoint : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create(
+    public async Task<IActionResult> Like(
         Guid postId,
         Guid userId,
         CancellationToken cancellationToken)
     {
-        var command = new CreatePostLikeCommand(postId, userId);
+        var command = new LikePostCommand(postId, userId);
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }

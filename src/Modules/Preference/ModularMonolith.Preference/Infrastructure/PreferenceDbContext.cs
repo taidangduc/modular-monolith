@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Preference.Infrastructure;
 
-public class PreferenceDbContext : DbContextBase
+public class PreferenceDbContext : DbContextBase, IDbContext
 {
     public PreferenceDbContext(
         DbContextOptions<PreferenceDbContext> options,

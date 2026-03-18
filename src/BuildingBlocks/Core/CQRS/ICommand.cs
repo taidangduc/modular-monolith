@@ -1,7 +1,6 @@
-﻿
-using MediatR;
+﻿using MediatR;
 
-namespace BuildingBlocks.Core.CQRS;
+namespace ModularMonolith.BuildingBlocks.Core.CQRS;
 
 //ref: https://stackoverflow.com/questions/1516876/when-to-use-in-vs-ref-vs-out
 

@@ -6,7 +6,7 @@ using ModularMonolith.Notification.Infrastructure.Projections;
 
 namespace ModularMonolith.Notification.Infrastructure;
 
-public class NotificationReadDbContext : DbContextBase
+public class NotificationReadDbContext : DbContextBase, IDbContext
 {
     public NotificationReadDbContext(
         DbContextOptions options, 

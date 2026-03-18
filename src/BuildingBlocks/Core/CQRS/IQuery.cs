@@ -1,7 +1,6 @@
-﻿
-using MediatR;
+﻿using MediatR;
 
-namespace BuildingBlocks.Core.CQRS;
+namespace ModularMonolith.BuildingBlocks.Core.CQRS;
 
 public interface IQuery<out T> : IRequest<T>
     where T : notnull

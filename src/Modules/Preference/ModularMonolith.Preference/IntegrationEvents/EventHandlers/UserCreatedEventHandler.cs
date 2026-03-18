@@ -6,7 +6,7 @@ using ModularMonolith.Preference.Infrastructure;
 
 namespace ModularMonolith.Preference.IntegrationEvents.EventHandlers;
 
-public class UserCreatedEventHandler : IConsumer<UserCreated>
+public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
 {
     private readonly PreferenceDbContext _preferenceDbContext;
     private readonly ILogger<UserCreatedEventHandler> _logger;
@@ -16,9 +16,9 @@ public class UserCreatedEventHandler : IConsumer<UserCreated>
         _preferenceDbContext = preferenceDbContext;
         _logger = logger;
     }
-    public async Task Consume(ConsumeContext<UserCreated> context)
+    public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
     {
-        _logger.LogInformation($"Consumer for {nameof(UserCreated)} started");
+        _logger.LogInformation($"Consumer for {nameof(UserCreatedIntegrationEvent)} started");
 
         var data = context.Message;
 

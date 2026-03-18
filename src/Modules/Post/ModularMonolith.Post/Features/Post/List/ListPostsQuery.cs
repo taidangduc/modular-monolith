@@ -1,6 +1,6 @@
 using Ardalis.GuardClauses;
-using BuildingBlocks.Core.CQRS;
 using Microsoft.EntityFrameworkCore;
+using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.Post.Infrastructure;
 
 namespace ModularMonolith.Post.Features.Post.List;
@@ -34,7 +34,7 @@ internal class ListPostsQueryHandler : IQueryHandler<ListPostsQuery, List<PostDt
                 x.AuthorId,
                 x.Content,
                 x.LikeCount,
-                x.CreatedAt ?? DateTime.UtcNow))
+                x.CreatedAt))
             .ToListAsync(cancellationToken);
 
         return posts;

@@ -1,9 +1,7 @@
-using BuildingBlocks.Core.Model;
 using Microsoft.AspNetCore.Identity;
 
 namespace ModularMonolith.Identity.Domain.Entities;
 
-public class UserRole : IdentityUserRole<Guid>, IVersion
+public class UserRole : IdentityUserRole<Guid>
 {
-    public long Version { get; set; }
 }

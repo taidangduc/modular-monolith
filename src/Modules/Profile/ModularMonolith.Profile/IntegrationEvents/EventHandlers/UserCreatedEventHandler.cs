@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ModularMonolith.Profile.IntegrationEvents.EventHandlers;
 
-public class UserCreatedEventHandler : IConsumer<UserCreated>
+public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
 {
     private readonly ProfileDbContext _profileDbContext;
     private readonly ILogger<UserCreatedEventHandler> _logger;
@@ -17,9 +17,9 @@ public class UserCreatedEventHandler : IConsumer<UserCreated>
         _profileDbContext = profileDbContext;
         _logger = logger;
     }
-    public async Task Consume(ConsumeContext<UserCreated> context)
+    public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
     {
-        _logger.LogInformation($"Consumer for {nameof(UserCreated)} started");
+        _logger.LogInformation($"Consumer for {nameof(UserCreatedIntegrationEvent)} started");
 
         var data = context.Message;
 

@@ -1,9 +1,7 @@
-using BuildingBlocks.Core;
 using BuildingBlocks.EFCore;
 using ModularMonolith.Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ModularMonolith.BuildingBlocks.Contracts;
 using ModularMonolith.BuildingBlocks.Constants;
 using ModularMonolith.BuildingBlocks.EventBus;
 
@@ -43,12 +41,12 @@ public class UserSeeder : IDataSeeder
         {
             if (await _roleManager.RoleExistsAsync(IdentityConstant.Role.Admin) == false)
             {
-                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.Admin, Version = 1 });
+                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.Admin });
             }
 
             if (await _roleManager.RoleExistsAsync(IdentityConstant.Role.User) == false)
             {
-                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.User, Version = 1 });
+                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.User });
             }
         }
     }
@@ -66,7 +64,7 @@ public class UserSeeder : IDataSeeder
                     await _userManager.AddToRoleAsync(InitialData.Users.First(), IdentityConstant.Role.Admin);
 
                     //await _eventDispatcher.SendAsync(
-                    //    new UserCreated(
+                    //    new UserCreatedIntegrationEvent(
                     //        InitialData.Users.First().Id,
                     //        InitialData.Users.First().UserName!,
                     //        InitialData.Users.First().FirstName +
@@ -85,7 +83,7 @@ public class UserSeeder : IDataSeeder
                     await _userManager.AddToRoleAsync(InitialData.Users.Last(), IdentityConstant.Role.User);
 
                     //await _eventDispatcher.SendAsync(
-                    //      new UserCreated(
+                    //      new UserCreatedIntegrationEvent(
                     //          InitialData.Users.Last().Id,
                     //          InitialData.Users.Last().UserName!,
                     //          InitialData.Users.Last().FirstName +

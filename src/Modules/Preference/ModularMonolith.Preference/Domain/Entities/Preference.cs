@@ -1,22 +1,21 @@
-﻿using BuildingBlocks.Core.Model;
-using ModularMonolith.BuildingBlocks.Contracts;
+﻿using ModularMonolith.BuildingBlocks.Contracts;
+using ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 namespace ModularMonolith.Preference.Domain.Entities;
 
-public record Preference : Aggregate<Guid>
+public class Preference : Entity, IAggregate
 {
     public Guid UserId { get; private set; }
     public ChannelType Channel { get; private set; }
     public bool IsOptOut { get; private set; }
 
-    public static Preference Create(Guid userId, ChannelType channel, bool isOptOut, bool isDelete = false)
+    public static Preference Create(Guid userId, ChannelType channel, bool isOptOut)
     {
         var preference = new Preference()
         {
             UserId = userId,
             Channel = channel,
             IsOptOut = isOptOut,
-            IsDeleted = isDelete,
         };
 
         return preference;
@@ -34,7 +33,6 @@ public record Preference : Aggregate<Guid>
         if (this.IsOptOut != isOptOut)
         {
             this.IsOptOut = isOptOut;
-            this.UpdatedAt = DateTime.UtcNow;
         }
     }
 }

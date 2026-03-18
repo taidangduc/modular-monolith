@@ -12,8 +12,6 @@ namespace ModularMonolith.Profile.Infrastructure.DbConfiguration
 
             builder.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
 
-            builder.Property(x => x.Version).IsConcurrencyToken();
-
             builder.Property(x => x.GenderType)
                 .HasDefaultValue(GenderType.Unknown)
                 .HasConversion(

@@ -4,7 +4,7 @@ using MassTransit;
 
 namespace ModularMonolith.Notification.IntegrationEvents.EventHandlers;
 
-public class UserCreatedEventHandler : IConsumer<UserCreated>
+public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
 {
     private readonly PreferenceGrpcService.PreferenceGrpcServiceClient _grpcClient;
 
@@ -13,7 +13,7 @@ public class UserCreatedEventHandler : IConsumer<UserCreated>
         _grpcClient = grpcClient;
     }
 
-    public async Task Consume(ConsumeContext<UserCreated> context)
+    public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
     {
         if(context.Message == null)
         {

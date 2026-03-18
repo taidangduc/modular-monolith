@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Profile.Infrastructure;
 
-public class ProfileDbContext : DbContextBase
+public class ProfileDbContext : DbContextBase, IDbContext
 {
     public ProfileDbContext(
         DbContextOptions<ProfileDbContext> options,

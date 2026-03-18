@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using ModularMonolith.Notification.Domain.Entities;
 
 namespace ModularMonolith.Notification.Infrastructure;
-public class NotificationDbContext : DbContextBase
+public class NotificationDbContext : DbContextBase, IDbContext
 {
     public NotificationDbContext(
         DbContextOptions<NotificationDbContext> options,

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.Post.Infrastructure;
 
-public class PostDbContext : DbContextBase
+public class PostDbContext : DbContextBase, IDbContext
 {
     public PostDbContext(
         DbContextOptions<PostDbContext> options,
