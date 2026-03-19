@@ -21,7 +21,7 @@ public class PreferenceService : PreferenceGrpcService.PreferenceGrpcServiceBase
         return data is not null ? MapToPreferenceResponse(data) : new();
     }
 
-    private static GetPreferenceResponse MapToPreferenceResponse(PreferenceDto dto)
+    private static GetPreferenceResponse MapToPreferenceResponse(PreferenceDTO dto)
     {
         var response = new GetPreferenceResponse { UserId = dto.UserId.ToString() };
 

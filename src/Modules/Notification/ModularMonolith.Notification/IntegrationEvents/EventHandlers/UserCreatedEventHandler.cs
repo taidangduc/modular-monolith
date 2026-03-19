@@ -1,6 +1,6 @@
-﻿using ModularMonolith.BuildingBlocks.Contracts;
-using ModularMonolith.Preference.Grpc.Services;
+﻿using ModularMonolith.Preference.Grpc.Services;
 using MassTransit;
+using ModularMonolith.Notification.IntegrationEvents.Events;
 
 namespace ModularMonolith.Notification.IntegrationEvents.EventHandlers;
 
@@ -34,15 +34,21 @@ public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
             return;
         }
 
-        var preferenceDto = preference.Preference
-                           .Select(p => new PreferenceDto(
-                               (BuildingBlocks.Contracts.ChannelType)p.Channel,
-                               p.IsOptOut))
-                           .ToList();
-
-
-
+        //var preferenceDto = preference.Preference
+        //                   .Select(p => new BuildingBlocks.Contracts.Preference.DTOs.ChannelPreference(
+        //                       (BuildingBlocks.Contracts.Preference.DTOs.ChannelType)p.Channel,
+        //                       p.IsOptOut))
+        //                   .ToList();
         return;
+    }
+}
+
+public class UserCreatedIntegrationEventConsumerDefinition : ConsumerDefinition<UserCreatedEventHandler>
+{
+    public UserCreatedIntegrationEventConsumerDefinition()
+    { 
+        Endpoint(x => x.Name = "user-created");
+        ConcurrentMessageLimit = 1;
     }
 }
 

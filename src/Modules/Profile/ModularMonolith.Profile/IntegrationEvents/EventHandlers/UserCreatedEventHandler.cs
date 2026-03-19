@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ModularMonolith.BuildingBlocks.Contracts;
 using ModularMonolith.Profile.Infrastructure;
+using ModularMonolith.Profile.IntegrationEvents.Events;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ModularMonolith.Profile.IntegrationEvents.EventHandlers;

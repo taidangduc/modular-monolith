@@ -1,9 +1,9 @@
-﻿namespace ModularMonolith.Notification.IntegrationEvents.Events;
+﻿using ModularMonolith.BuildingBlocks.EventBus;
 
-public class PreferenceUpdatedIntegrationEvent
-{
-    public Guid UserId { get; set; }
-    public bool EmailEnabled { get; set; }
-    public bool PushEnabled { get; set; }
-    public bool SmsEnabled { get; set; }
-}
+namespace ModularMonolith.Notification.IntegrationEvents.Events;
+
+public record PreferenceUpdatedIntegrationEvent(
+   Guid UserId,
+   string Channel,
+   bool IsOptOut
+) : IntegrationEvent;

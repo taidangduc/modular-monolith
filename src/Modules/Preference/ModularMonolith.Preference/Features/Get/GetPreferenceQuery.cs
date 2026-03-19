@@ -6,9 +6,9 @@ using ModularMonolith.Preference.Infrastructure;
 
 namespace ModularMonolith.Preference.Features.Get;
 
-public record GetPreferenceQuery(Guid Id) : IQuery<PreferenceDto>;
+public record GetPreferenceQuery(Guid Id) : IQuery<PreferenceDTO>;
 
-internal class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, PreferenceDto>
+internal class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, PreferenceDTO>
 {
     private readonly PreferenceDbContext _preferenceDbContext;
 
@@ -16,24 +16,20 @@ internal class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, Pre
     {
         _preferenceDbContext = preferenceDbContext;
     }
-    public async Task<PreferenceDto> Handle(GetPreferenceQuery query, CancellationToken cancellationToken)
+    public async Task<PreferenceDTO> Handle(GetPreferenceQuery query, CancellationToken cancellationToken)
     {
         Guard.Against.Null(query, nameof(query));
 
         var preference = await _preferenceDbContext.Preferences
             .Where(x => x.UserId == query.Id)
-            .GroupBy(x => x.UserId)
-            .Select(g => new PreferenceDto(
-                g.Key,
-                g.Select(p => new ChannelPreference(p.Channel, p.IsOptOut)).ToList()
-            ))
-            .FirstOrDefaultAsync();
+            .Select(p => new PreferenceOptionDTO((ChannelTypeDTO)p.Channel, p.IsOptOut))
+            .ToListAsync();
 
         if (preference is null)
         {
             throw new PreferenceNotFoundException();
         }
 
-        return preference;
+        return new PreferenceDTO(query.Id, preference);
     }
 }

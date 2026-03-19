@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ModularMonolith.BuildingBlocks.Contracts;
+using ModularMonolith.Preference.Domain.Enums;
 
 namespace ModularMonolith.Preference.Infrastructure.DbConfiguration;
 
@@ -17,5 +17,7 @@ public class PreferenceConfiguration : IEntityTypeConfiguration<Domain.Entities.
             .HasConversion(
                 x => x.ToString(),
                 x => (ChannelType)Enum.Parse(typeof(ChannelType), x));
+
+        builder.HasIndex(x => new { x.UserId, x.Channel }).IsUnique();
     }
 }

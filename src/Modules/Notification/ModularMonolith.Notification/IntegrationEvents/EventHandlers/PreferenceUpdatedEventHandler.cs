@@ -23,3 +23,12 @@ public class PreferenceUpdatedEventHandler : IConsumer<PreferenceUpdatedIntegrat
         await _dispatcher.DispatchAsync(context.Message);
     }
 }
+
+public class PreferenceUpdatedIntegrationEventConsumerDefinition : ConsumerDefinition<PreferenceUpdatedEventHandler>
+{
+    public PreferenceUpdatedIntegrationEventConsumerDefinition()
+    {
+        Endpoint(x => x.Name = "preference-updated");
+        ConcurrentMessageLimit = 1;
+    }
+}

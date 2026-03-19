@@ -23,3 +23,12 @@ public class ProfileUpdatedEventHandler : IConsumer<ProfileUpdatedIntegrationEve
         await _dispatcher.DispatchAsync(context.Message);
     }
 }
+
+public class ProfileUpdatedIntegrationEventConsumerDefinition : ConsumerDefinition<ProfileUpdatedEventHandler>
+{
+    public ProfileUpdatedIntegrationEventConsumerDefinition()
+    {
+        Endpoint(x => x.Name = "profile-updated");
+        ConcurrentMessageLimit = 1;
+    }
+}

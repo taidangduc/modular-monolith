@@ -1,5 +1,5 @@
-﻿using ModularMonolith.BuildingBlocks.Contracts;
-using ModularMonolith.BuildingBlocks.Core.SeedWork;
+﻿using ModularMonolith.BuildingBlocks.Core.SeedWork;
+using ModularMonolith.Preference.Domain.Enums;
 
 namespace ModularMonolith.Preference.Domain.Entities;
 

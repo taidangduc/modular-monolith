@@ -1,8 +1,12 @@
-﻿using ModularMonolith.BuildingBlocks.Contracts;
+﻿namespace ModularMonolith.Preference.Features;
 
-namespace ModularMonolith.Preference.Features;
+public record PreferenceDTO(Guid UserId, IEnumerable<PreferenceOptionDTO> Preferences);
 
+public record PreferenceOptionDTO(ChannelTypeDTO Channel, bool IsOptOut);
 
-public record PreferenceDto(Guid UserId, IEnumerable<ChannelPreference> Preferences);
-
-public record ChannelPreference(ChannelType Channel, bool IsOptOut);
+public enum ChannelTypeDTO
+{
+    Email,
+    Sms,
+    Web
+}

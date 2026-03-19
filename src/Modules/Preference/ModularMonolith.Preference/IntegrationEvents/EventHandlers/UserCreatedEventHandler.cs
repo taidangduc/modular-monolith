@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ModularMonolith.BuildingBlocks.Contracts;
 using ModularMonolith.Preference.Infrastructure;
+using ModularMonolith.Preference.IntegrationEvents.Events;
 
 namespace ModularMonolith.Preference.IntegrationEvents.EventHandlers;
 
@@ -39,5 +39,14 @@ public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
         await _preferenceDbContext.Preferences.AddRangeAsync(preferences);
 
         await _preferenceDbContext.SaveChangesAsync();
+    }
+}
+
+public class UserCreatedIntegrationEventConsumerDefinition : ConsumerDefinition<UserCreatedEventHandler>
+{
+    public UserCreatedIntegrationEventConsumerDefinition()
+    { 
+        Endpoint(x => x.Name = "user-created");
+        ConcurrentMessageLimit = 1;
     }
 }

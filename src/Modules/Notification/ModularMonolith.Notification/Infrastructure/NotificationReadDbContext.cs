@@ -22,5 +22,9 @@ public class NotificationReadDbContext : DbContextBase, IDbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(NotificationRoot).Assembly);
+
+        builder.Entity<ProfileView>().ToTable(nameof(ProfileView));
+        builder.Entity<PreferenceView>().ToTable(nameof(PreferenceView));
+        builder.Entity<PreferenceView>().HasIndex(x => new { x.UserId, x.Channel });    
     }
 }
