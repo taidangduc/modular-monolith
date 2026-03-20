@@ -4,6 +4,6 @@ namespace ModularMonolith.Notification.IntegrationEvents.Events;
 
 public record ProfileCreatedIntegrationEvent(
     Guid UserId,
-    string FullName,
+    string Name,
     string Email
 ) : IntegrationEvent;

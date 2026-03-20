@@ -47,8 +47,7 @@ public class Preference : Entity, IAggregate
         if (this.IsOptOut != isOptOut)
         {
             this.IsOptOut = isOptOut;
+            AddDomainEvent(new PreferenceUpdatedEvent(this.UserId, channel, isOptOut));
         }
-
-        AddDomainEvent(new PreferenceUpdatedEvent(this.UserId, channel, isOptOut));
     }
 }

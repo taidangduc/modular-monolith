@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System.Diagnostics.CodeAnalysis;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using ModularMonolith.Notification.Infrastructure;
 using ModularMonolith.Notification.Infrastructure.Projections;
@@ -33,6 +34,7 @@ public class ProfileUpdatedEventHandler : IConsumer<ProfileUpdatedIntegrationEve
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class ProfileUpdatedIntegrationEventConsumerDefinition : ConsumerDefinition<ProfileUpdatedEventHandler>
 {
     public ProfileUpdatedIntegrationEventConsumerDefinition()

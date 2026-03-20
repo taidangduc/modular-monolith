@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System.Diagnostics.CodeAnalysis;
+using MassTransit;
 using ModularMonolith.Notification.Infrastructure;
 using ModularMonolith.Notification.Infrastructure.Projections;
 using ModularMonolith.Notification.IntegrationEvents.Events;
@@ -32,6 +33,7 @@ public class PreferenceUpdatedEventHandler : IConsumer<PreferenceUpdatedIntegrat
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class PreferenceUpdatedIntegrationEventConsumerDefinition : ConsumerDefinition<PreferenceUpdatedEventHandler>
 {
     public PreferenceUpdatedIntegrationEventConsumerDefinition()

@@ -1,8 +1,9 @@
-﻿namespace ModularMonolith.Notification.IntegrationEvents.Events;
+﻿using ModularMonolith.BuildingBlocks.EventBus;
 
-public class ProfileUpdatedIntegrationEvent
-{
-    public Guid UserId { get; set; }
-    public string FullName { get; set; }
-    public string Email { get; set; }
-}
+namespace ModularMonolith.Notification.IntegrationEvents.Events;
+
+public record ProfileUpdatedIntegrationEvent(
+    Guid UserId,
+    string Name,
+    string Email
+) : IntegrationEvent;

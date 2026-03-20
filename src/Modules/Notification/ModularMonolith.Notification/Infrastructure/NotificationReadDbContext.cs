@@ -24,7 +24,10 @@ public class NotificationReadDbContext : DbContextBase, IDbContext
         builder.ApplyConfigurationsFromAssembly(typeof(NotificationRoot).Assembly);
 
         builder.Entity<ProfileView>().ToTable(nameof(ProfileView));
+        builder.Entity<ProfileView>().Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
+
         builder.Entity<PreferenceView>().ToTable(nameof(PreferenceView));
+        builder.Entity<ProfileView>().Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
         builder.Entity<PreferenceView>().HasIndex(x => new { x.UserId, x.Channel });    
     }
 }

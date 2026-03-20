@@ -23,6 +23,8 @@ public class Profile : Entity, IAggregate
             Email = email,
         };
 
+        profile.AddDomainEvent(new Events.ProfileCreatedEvent(userId, name, email));
+
         return profile;
     }
 
@@ -34,5 +36,7 @@ public class Profile : Entity, IAggregate
         this.Email = email;
         this.GenderType = genderType;
         this.Age = age;
+
+        AddDomainEvent(new Events.ProfileUpdatedEvent(userId, name, email));
     }
 }

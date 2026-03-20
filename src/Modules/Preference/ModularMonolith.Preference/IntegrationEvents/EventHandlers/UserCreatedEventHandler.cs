@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System.Diagnostics.CodeAnalysis;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ModularMonolith.Preference.Infrastructure;
@@ -44,6 +45,7 @@ public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class UserCreatedIntegrationEventConsumerDefinition : ConsumerDefinition<UserCreatedEventHandler>
 {
     public UserCreatedIntegrationEventConsumerDefinition()

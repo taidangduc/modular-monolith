@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MassTransit;
 using ModularMonolith.Notification.Infrastructure;
 using ModularMonolith.Notification.Infrastructure.Projections;
@@ -31,4 +32,14 @@ public class ProfileCreatedEventHandler : IConsumer<ProfileCreatedIntegrationEve
 			await _readDbContext.SaveChangesAsync();
 		}
 	}
+}
+
+[ExcludeFromCodeCoverage]
+public class ProfileCreatedIntegrationEventConsumerDefinition : ConsumerDefinition<ProfileCreatedEventHandler>
+{
+    public ProfileCreatedIntegrationEventConsumerDefinition()
+    {
+        Endpoint(x => x.Name = "profile-created");
+        ConcurrentMessageLimit = 1;
+    }
 }

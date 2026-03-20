@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MassTransit;
 using ModularMonolith.Notification.Infrastructure;
 using ModularMonolith.Notification.Infrastructure.Projections;
@@ -27,9 +28,19 @@ public class PreferenceCreatedEventHandler : IConsumer<PreferenceCreatedIntegrat
         if (preference is null)
         {
             var newPreference = PreferenceViewProjection.Create(new PreferenceView(), context.Message);
-            
+
             _readDbContext.preferenceView.Add(newPreference);
             await _readDbContext.SaveChangesAsync();
         }
+    }
+}
+
+[ExcludeFromCodeCoverage]
+public class PreferenceCreatedIntegrationEventConsumerDefinition : ConsumerDefinition<PreferenceCreatedEventHandler>
+{
+    public PreferenceCreatedIntegrationEventConsumerDefinition()
+    {
+        Endpoint(x => x.Name = "preference-created");
+        ConcurrentMessageLimit = 1;
     }
 }
