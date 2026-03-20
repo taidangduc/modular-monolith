@@ -22,13 +22,13 @@ public class ProfileCreatedEventHandler : IConsumer<ProfileCreatedIntegrationEve
 			return;
 		}
 
-		var profile = _readDbContext.profileView
+		var profile = _readDbContext.ProfileView
 			.FirstOrDefault(p => p.UserId == context.Message.UserId);
 
 		if (profile is null)
 		{
 			var newProfile = ProfileViewProjection.Create(new ProfileView(), context.Message);
-			_readDbContext.profileView.Add(newProfile);
+			_readDbContext.ProfileView.Add(newProfile);
 			await _readDbContext.SaveChangesAsync();
 		}
 	}

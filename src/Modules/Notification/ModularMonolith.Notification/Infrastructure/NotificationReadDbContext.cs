@@ -1,22 +1,18 @@
-﻿using BuildingBlocks.EFCore;
-using BuildingBlocks.Web;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.Notification.Infrastructure.Projections;
 
 namespace ModularMonolith.Notification.Infrastructure;
 
-public class NotificationReadDbContext : DbContextBase, IDbContext
+public class NotificationReadDbContext : DbContextUnitOfWork<NotificationReadDbContext>
 {
-    public NotificationReadDbContext(
-        DbContextOptions options, 
-        ILogger<DbContextBase>? logger = null,
-        ICurrentUserProvider? currentUserProvider = null) : base(options, logger, currentUserProvider)
+    public NotificationReadDbContext(DbContextOptions<NotificationReadDbContext> options) 
+        : base(options)
     {
     }
 
-    public DbSet<PreferenceView> preferenceView => Set<PreferenceView>();
-    public DbSet<ProfileView> profileView => Set<ProfileView>();
+    public DbSet<PreferenceView> PreferenceView => Set<PreferenceView>();
+    public DbSet<ProfileView> ProfileView => Set<ProfileView>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

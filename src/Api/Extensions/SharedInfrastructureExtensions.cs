@@ -3,6 +3,8 @@ using BuildingBlocks.Web;
 using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.OpenApi.Models;
+using ModularMonolith.BuildingBlocks.Core.Repositories;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity;
 using ModularMonolith.Notification;
@@ -34,6 +36,7 @@ public static class SharedInfrastructureExtensions
         builder.Services.AddFluentValidation();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+
         builder.Services.AddSwaggerGen(
             options => {
 

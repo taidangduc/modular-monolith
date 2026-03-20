@@ -1,4 +1,6 @@
-﻿namespace ModularMonolith.BuildingBlocks.Core.SeedWork;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 public abstract class Entity : HasDomainEvent
 {
@@ -6,7 +8,6 @@ public abstract class Entity : HasDomainEvent
 }
 
 public abstract class Entity<TKey> : Entity
-    where TKey : IEquatable<TKey>
 {
     public TKey Id { get; set; }
 }

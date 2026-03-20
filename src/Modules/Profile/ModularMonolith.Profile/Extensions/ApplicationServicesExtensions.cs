@@ -1,7 +1,7 @@
-﻿using BuildingBlocks.EFCore;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.Profile.ConfigurationOptions;
 using ModularMonolith.Profile.Infrastructure;
 

@@ -4,7 +4,7 @@ using ModularMonolith.Profile.Domain.Enums;
 
 namespace ModularMonolith.Profile.Domain.Entities;
 
-public class Profile : Entity, IAggregate
+public class Profile : Entity, IAggregateRoot
 {
     public Guid UserId { get; private set; } = default!;
     public string UserName { get; private set; } = default!;

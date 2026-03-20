@@ -8,7 +8,6 @@ public abstract class AuditableEntity : Entity
 }
 
 public abstract class AuditableEntity<TId> : Entity<TId>
-    where TId : IEquatable<TId>
 {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastModifiedAt { get; set; }

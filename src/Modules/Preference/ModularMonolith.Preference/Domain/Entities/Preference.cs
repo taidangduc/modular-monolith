@@ -4,7 +4,7 @@ using ModularMonolith.Preference.Domain.Events;
 
 namespace ModularMonolith.Preference.Domain.Entities;
 
-public class Preference : Entity, IAggregate
+public class Preference : Entity, IAggregateRoot
 {
     public Guid UserId { get; private set; }
     public ChannelType Channel { get; private set; }

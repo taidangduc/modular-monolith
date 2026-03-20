@@ -2,7 +2,7 @@ using ModularMonolith.BuildingBlocks.Core.SeedWork;
 
 namespace ModularMonolith.Post.Domain.Entities;
 
-public class Post : AuditableEntity<Guid>, ISoftDelete, IAggregate
+public class Post : AuditableEntity<Guid>, ISoftDelete, IAggregateRoot
 {
     public Guid AuthorId { get; set; }
     public string Content { get; set; }

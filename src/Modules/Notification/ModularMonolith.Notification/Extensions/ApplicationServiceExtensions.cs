@@ -1,7 +1,7 @@
-﻿using BuildingBlocks.EFCore;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Notification.ConfigurationOptions;
 using ModularMonolith.Notification.Infrastructure;

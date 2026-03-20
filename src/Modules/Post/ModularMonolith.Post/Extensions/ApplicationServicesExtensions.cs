@@ -1,7 +1,7 @@
-using BuildingBlocks.EFCore;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.Post.ConfigurationOptions;
 using ModularMonolith.Post.Infrastructure;
 
@@ -15,7 +15,7 @@ public static class ApplicationServicesExtensions
         configureOptions(options);
 
         builder.Services.Configure(configureOptions);
-
+    
         builder.AddCustomDbContext<PostDbContext>(options.ConnectionStrings);
 
         builder.Services.AddValidatorsFromAssembly(typeof(PostRoot).Assembly);

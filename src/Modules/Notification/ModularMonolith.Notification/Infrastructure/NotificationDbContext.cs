@@ -1,16 +1,15 @@
-﻿using BuildingBlocks.EFCore;
-using BuildingBlocks.Web;
+﻿
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using ModularMonolith.BuildingBlocks.EFCore;
 using ModularMonolith.Notification.Domain.Entities;
 
 namespace ModularMonolith.Notification.Infrastructure;
-public class NotificationDbContext : DbContextBase, IDbContext
+
+public class NotificationDbContext : DbContextUnitOfWork<NotificationDbContext>
 {
-    public NotificationDbContext(
-        DbContextOptions<NotificationDbContext> options,
-        ILogger<DbContextBase>? logger = null,
-        ICurrentUserProvider? currentUserProvider = null) : base(options, logger, currentUserProvider)
+    public NotificationDbContext( DbContextOptions<NotificationDbContext> options) 
+        : base(options)
     {
     }
 
@@ -19,7 +18,6 @@ public class NotificationDbContext : DbContextBase, IDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(typeof(NotificationRoot).Assembly);
-
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

@@ -23,7 +23,7 @@ public class ProfileUpdatedEventHandler : IConsumer<ProfileUpdatedIntegrationEve
             return;
         }
 
-        var profile = await _readDbContext.profileView
+        var profile = await _readDbContext.ProfileView
             .FirstOrDefaultAsync(p => p.UserId == context.Message.UserId);
 
         if (profile is not null)

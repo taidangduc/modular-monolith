@@ -1,6 +1,4 @@
-﻿
-using BuildingBlocks.EFCore;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularMonolith.Identity.ConfigurationOptions;
 using ModularMonolith.Identity.Infrastructure;
-using ModularMonolith.Identity.Infrastructure.Seeds;
 
 namespace ModularMonolith.Identity.Extensions;
 
@@ -22,7 +19,7 @@ public static class ApplicationServicesExtensions
         builder.Services.Configure(configureOptions);
 
         builder.Services.AddScoped<IdentityEventMapper>();
-        builder.Services.AddScoped<IDataSeeder, UserSeeder>();
+        //builder.Services.AddScoped<IDataSeeder, UserSeeder>();
 
         builder.Services.AddValidatorsFromAssembly(typeof(IdentityRoot).Assembly);
         builder.Services.AddMediatRCustom();
@@ -48,7 +45,7 @@ public static class ApplicationServicesExtensions
     public static WebApplication UseIdentityModules(this WebApplication app)
     {
         app.UseForwardedHeaders();
-        app.UseMigration<IdentityDbContext>();
+        //app.UseMigration<IdentityDbContext>();
 
         return app;
     }

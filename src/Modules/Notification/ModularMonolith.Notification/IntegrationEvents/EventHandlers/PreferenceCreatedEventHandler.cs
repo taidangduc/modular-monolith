@@ -22,14 +22,14 @@ public class PreferenceCreatedEventHandler : IConsumer<PreferenceCreatedIntegrat
             return;
         }
 
-        var preference = _readDbContext.preferenceView
+        var preference = _readDbContext.PreferenceView
             .FirstOrDefault(p => p.UserId == context.Message.UserId && p.Channel == context.Message.Channel);
 
         if (preference is null)
         {
             var newPreference = PreferenceViewProjection.Create(new PreferenceView(), context.Message);
 
-            _readDbContext.preferenceView.Add(newPreference);
+            _readDbContext.PreferenceView.Add(newPreference);
             await _readDbContext.SaveChangesAsync();
         }
     }

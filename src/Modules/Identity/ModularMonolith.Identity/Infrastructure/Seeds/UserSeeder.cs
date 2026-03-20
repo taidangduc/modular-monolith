@@ -1,4 +1,3 @@
-using BuildingBlocks.EFCore;
 using ModularMonolith.Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using ModularMonolith.BuildingBlocks.EventBus;
 
 namespace ModularMonolith.Identity.Infrastructure.Seeds;
 
-public class UserSeeder : IDataSeeder
+public class UserSeeder 
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;

@@ -1,25 +1,22 @@
-﻿using BuildingBlocks.EFCore;
-using BuildingBlocks.Web;
+﻿
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using ModularMonolith.BuildingBlocks.EFCore;
 
 namespace ModularMonolith.Preference.Infrastructure;
 
-public class PreferenceDbContext : DbContextBase, IDbContext
+public class PreferenceDbContext : DbContextUnitOfWork<PreferenceDbContext>
 {
-    public PreferenceDbContext(
-        DbContextOptions<PreferenceDbContext> options,
-        ILogger<DbContextBase>? logger = null,
-        ICurrentUserProvider? currentUserProvider = null)
-        : base(options, logger, currentUserProvider)
+    public PreferenceDbContext(DbContextOptions<PreferenceDbContext> options)
+        : base(options)
     {
     }
 
     public DbSet<Domain.Entities.Preference> Preferences => Set<Domain.Entities.Preference>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PreferenceDbContext).Assembly);
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

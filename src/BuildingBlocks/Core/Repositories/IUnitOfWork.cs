@@ -1,7 +1,10 @@
-﻿namespace ModularMonolith.BuildingBlocks.Core.Repositories;
+﻿using System.Data;
 
-public interface IUnitOfWork : IDisposable
+namespace ModularMonolith.BuildingBlocks.Core.Repositories;
+
+public interface IUnitOfWork
 {
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<IDisposable> BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default);
+    Task CommitTransactionAsync(CancellationToken cancellationToken = default);
 }

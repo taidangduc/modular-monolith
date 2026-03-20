@@ -1,26 +1,23 @@
-using BuildingBlocks.EFCore;
-using BuildingBlocks.Web;
+
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using ModularMonolith.BuildingBlocks.EFCore;
 
 namespace ModularMonolith.Post.Infrastructure;
 
-public class PostDbContext : DbContextBase, IDbContext
+public class PostDbContext : DbContextUnitOfWork<PostDbContext>
 {
-    public PostDbContext(
-        DbContextOptions<PostDbContext> options,
-        ILogger<DbContextBase>? logger = null,
-        ICurrentUserProvider? currentUserProvider = null)
-        : base(options, logger, currentUserProvider)
+    public PostDbContext(DbContextOptions<PostDbContext> options)
+        : base(options)
     {
     }
 
     public DbSet<Domain.Entities.Post> Posts => Set<Domain.Entities.Post>();
     public DbSet<Domain.Entities.PostLike> PostLikes => Set<Domain.Entities.PostLike>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PostDbContext).Assembly);
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
