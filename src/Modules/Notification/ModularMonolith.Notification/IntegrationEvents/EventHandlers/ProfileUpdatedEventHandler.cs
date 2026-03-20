@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using ModularMonolith.Notification.Infrastructure;
 using ModularMonolith.Notification.Infrastructure.Projections;
 using ModularMonolith.Notification.IntegrationEvents.Events;
 
@@ -6,21 +8,28 @@ namespace ModularMonolith.Notification.IntegrationEvents.EventHandlers;
 
 public class ProfileUpdatedEventHandler : IConsumer<ProfileUpdatedIntegrationEvent>
 {
-    private readonly ProjectionDispatcher _dispatcher;
+    private readonly NotificationReadDbContext _readDbContext;
 
-    public ProfileUpdatedEventHandler(ProjectionDispatcher dispatcher)
+    public ProfileUpdatedEventHandler(NotificationReadDbContext readDbContext)
     {
-        _dispatcher = dispatcher;
+        _readDbContext = readDbContext;
     }
 
     public async Task Consume(ConsumeContext<ProfileUpdatedIntegrationEvent> context)
     {
-        if(context.Message is null)
+        if (context.Message is null)
         {
             return;
         }
 
-        await _dispatcher.DispatchAsync(context.Message);
+        var profile = await _readDbContext.profileView
+            .FirstOrDefaultAsync(p => p.UserId == context.Message.UserId);
+
+        if (profile is not null)
+        {
+            ProfileViewProjection.Apply(profile, context.Message);
+            await _readDbContext.SaveChangesAsync();
+        }
     }
 }
 

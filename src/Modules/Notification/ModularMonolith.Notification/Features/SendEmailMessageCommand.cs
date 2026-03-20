@@ -6,7 +6,7 @@ namespace ModularMonolith.Notification.Features;
 public class SendEmailMessagesCommand() : ICommand
 {
     public int SentMessagesCount { get; set; }
-};
+}
 
 
 public class SendEmailMessagesCommandHandler : ICommandHandler<SendEmailMessagesCommand>

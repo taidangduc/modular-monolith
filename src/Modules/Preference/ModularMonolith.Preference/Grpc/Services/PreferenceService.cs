@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using MediatR;
+using ModularMonolith.Contracts.Preference.DTOs;
 using ModularMonolith.Preference.Features;
 using ModularMonolith.Preference.Features.Get;
 

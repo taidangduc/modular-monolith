@@ -9,7 +9,7 @@ public sealed class IdentityEventMapper : IEventMapper
     {
         return @event switch
         {
-            _ => null
+             _ => throw new ArgumentNullException(nameof(@event), $"No mapping found for event type {@event.GetType().FullName}")
         };
     }
 }

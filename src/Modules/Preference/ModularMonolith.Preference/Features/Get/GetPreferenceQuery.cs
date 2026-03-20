@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using ModularMonolith.BuildingBlocks.Core.CQRS;
+using ModularMonolith.Contracts.Preference.DTOs;
 using ModularMonolith.Preference.Domain.Exceptions;
 using ModularMonolith.Preference.Infrastructure;
 
@@ -22,7 +23,7 @@ internal class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, Pre
 
         var preference = await _preferenceDbContext.Preferences
             .Where(x => x.UserId == query.Id)
-            .Select(p => new PreferenceOptionDTO((ChannelTypeDTO)p.Channel, p.IsOptOut))
+            .Select(p => new PreferenceItemDto((ChannelType)p.Channel, p.IsOptOut))
             .ToListAsync();
 
         if (preference is null)

@@ -1,54 +1,32 @@
-﻿using ModularMonolith.Notification.IntegrationEvents.Events;
+﻿using ModularMonolith.Contracts.Preference.DTOs;
+using ModularMonolith.Notification.IntegrationEvents.Events;
 
 namespace ModularMonolith.Notification.Infrastructure.Projections;
 
 public class PreferenceView
 {
+    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public ChannelType Channel { get; set; }
     public bool IsOptOut { get; set; }
 }
 
-public enum ChannelType
+public sealed class PreferenceViewProjection
 {
-    Email,
-    Web,
-    Sms
-}
-
-public class PreferenceViewProjection : IProjection<PreferenceUpdatedIntegrationEvent>
-{
-    private readonly NotificationReadDbContext _readDbContext;
-
-    public PreferenceViewProjection(NotificationReadDbContext readDbContext)
+    public static PreferenceView Create(PreferenceView view, PreferenceCreatedIntegrationEvent @event)
     {
-        _readDbContext = readDbContext;
+        view.UserId = @event.UserId;
+        view.Channel = @event.Channel;
+        view.IsOptOut = @event.IsOptOut;
+
+        return view;
+    }
+    public static PreferenceView Apply(PreferenceView view, PreferenceUpdatedIntegrationEvent @event)
+    {
+        view.IsOptOut = @event.IsOptOut;
+
+        return view;
     }
 
-    public async Task ProjectAsync(PreferenceUpdatedIntegrationEvent @event)
-    {
-        if (!Enum.TryParse<ChannelType>(@event.Channel, true, out var channel))
-        {
-            // Unknown channel, ignore or handle as needed
-            return;
-        }
-
-        var preference = _readDbContext.preferenceView.FirstOrDefault(p => p.UserId == @event.UserId && p.Channel == channel);
-        if (preference is null)
-        {
-            preference = new PreferenceView
-            {
-                UserId = @event.UserId,
-                Channel = channel,
-                IsOptOut = @event.IsOptOut
-            };
-            _readDbContext.preferenceView.Add(preference);
-        }
-        else
-        {
-            preference.IsOptOut = @event.IsOptOut;
-        }
-
-        await _readDbContext.SaveChangesAsync();
-    }
+    
 }

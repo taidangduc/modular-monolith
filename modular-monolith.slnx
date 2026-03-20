@@ -3,7 +3,6 @@
   <Folder Name="/src/Api/">
     <Project Path="src/Api/ModularMonolith.Api.csproj" />
   </Folder>
-  <Folder Name="/src/Aspire/" />
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/ModularMonolith.BuildingBlocks.csproj" />
   </Folder>

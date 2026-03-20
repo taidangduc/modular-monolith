@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ModularMonolith.Preference.Domain.Enums;
+using ModularMonolith.Contracts.Preference.DTOs;
 
 namespace ModularMonolith.Preference.Infrastructure.DbConfiguration;
 

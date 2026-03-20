@@ -27,14 +27,16 @@ public class UserCreatedEventHandler : IConsumer<UserCreatedIntegrationEvent>
             return;
         }
 
-        var preference = await _preferenceDbContext.Preferences.FirstOrDefaultAsync(x => x.UserId == data.UserId);
+        var preference = await _preferenceDbContext.Preferences
+            .Where(x => x.UserId == data.UserId)
+            .ToListAsync();
 
         if (preference != null)
         {
             return;
         }
 
-        var preferences = Domain.Entities.Preference.SetDefaultValues(data.UserId);
+        var preferences = Domain.Entities.Preference.CreateForUser(data.UserId);
 
         await _preferenceDbContext.Preferences.AddRangeAsync(preferences);
 

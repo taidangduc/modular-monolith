@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using ModularMonolith.BuildingBlocks.Core.CQRS;
-using ModularMonolith.Preference.Domain.Enums;
+using ModularMonolith.Contracts.Preference.DTOs;
 using ModularMonolith.Preference.Infrastructure;
 
 namespace ModularMonolith.Preference.Features.Update;
@@ -31,7 +31,7 @@ internal class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePreference
         }
         else
         {
-            preference.UpdateOptOut(request.IsOptOut);
+            preference.UpdateOptOut(request.Channel, request.IsOptOut);
         }
 
         await _preferenceDbContext.SaveChangesAsync(cancellationToken);
