@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace ModularMonolith.BuildingBlocks.Core.SeedWork;
 
-public class HasDomainEvent : IHasDomainEvent
+public abstract class HasDomainEvent : IHasDomainEvent
 {
-    public List<DomainEvent> _domainEvents = [];
+    public readonly List<DomainEvent> _domainEvents = [];
 
     [NotMapped]
     [JsonIgnore]

@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Web;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -13,33 +14,43 @@ public class DbContextBase : DbContext
     private IDbContextTransaction _currentTransaction;
     private readonly ILogger<DbContextBase> _logger;
     private readonly ICurrentUserProvider _currentUserProvider;
+    private readonly IPublisher _publisher;
 
     public DbContextBase(
         DbContextOptions options,
         ILogger<DbContextBase>? logger = null,
-        ICurrentUserProvider? currentUserProvider = null)
+        ICurrentUserProvider? currentUserProvider = null,
+        IPublisher? publisher = null)
         : base(options)
     {
         _logger = logger;
         _currentUserProvider = currentUserProvider;
+        _publisher = publisher;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        //OnBeforeSaving();
         try
         {
+            var domainEntities = ChangeTracker
+                .Entries<IHasDomainEvent>()
+                .Select(x => x.Entity)
+                .Where(x => x.DomainEvents.Count != 0)
+                .ToImmutableList();
+
+            await DispatchAndClearEvents(domainEntities);
+
             return await base.SaveChangesAsync(cancellationToken);
         }
         //ref: https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=data-annotations#resolving-concurrency-conflicts
-        catch(DbUpdateConcurrencyException ex)
+        catch (DbUpdateConcurrencyException ex)
         {
-            foreach(var entry in ex.Entries)
+            foreach (var entry in ex.Entries)
             {
                 var databaseValues = await entry.GetDatabaseValuesAsync();
 
@@ -109,22 +120,24 @@ public class DbContextBase : DbContext
         });
     }
 
-    //public IReadOnlyList<DomainEvent> GetDomainEvents()
-    //{
-    //    var domainEntites = ChangeTracker
-    //        .Entries<IAggregate>()
-    //        .Where(x => x.Entity.DomainEvents.Any())
-    //        .Select(x => x.Entity)
-    //        .ToList();
+    public async Task DispatchAndClearEvents(ImmutableList<IHasDomainEvent> domainEntities)
+    {
+        foreach (var entity in domainEntities)
+        {
+            if (entity is not HasDomainEvent hasDomainEvents)
+            {
+                continue;
+            }
 
-    //    var domainEvents = domainEntites
-    //        .SelectMany(x => x.DomainEvents)
-    //        .ToImmutableList();
-        
-    //    domainEntites.ForEach(entity => entity.ClearDomainEvents());    
+            DomainEvent[] events = hasDomainEvents.DomainEvents.ToArray();
+            hasDomainEvents.ClearDomainEvents();
 
-    //    return domainEvents.ToImmutableList();
-    //}
+            foreach (var domainEvent in events)
+            {
+                await _publisher.Publish(domainEvent);
+            }
+        }
+    }
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
@@ -138,47 +151,4 @@ public class DbContextBase : DbContext
             _currentTransaction = null;
         }
     }
-
-    // ref: https://www.meziantou.net/entity-framework-core-generate-tracking-columns.htm
-    // ref: https://www.meziantou.net/entity-framework-core-soft-delete-using-query-filters.htm
-    //private void OnBeforeSaving()
-    //{
-    //    try
-    //    {
-    //        foreach(var entry in ChangeTracker.Entries<IAggregate>())
-    //        {
-    //            var isAudit = entry.Entity.GetType().IsAssignableTo(typeof(IAggregate));
-    //            var userId = _currentUserProvider?.GetCurrentUserId();
-
-    //            if (isAudit)
-    //            {
-    //                switch (entry.State)
-    //                {
-    //                    case EntityState.Added:
-    //                        entry.Entity.CreatedBy = userId;
-    //                        entry.Entity.CreatedAt = DateTime.Now;
-    //                        break;
-
-    //                    case EntityState.Modified:
-    //                        entry.Entity.UpdatedBy = userId;
-    //                        entry.Entity.UpdatedAt = DateTime.Now;
-    //                        entry.Entity.Version++;
-    //                        break;
-
-    //                    case EntityState.Deleted:
-    //                        entry.Entity.UpdatedBy = userId;
-    //                        entry.Entity.UpdatedAt = DateTime.Now;
-    //                        entry.Entity.IsDeleted = true;
-    //                        entry.Entity.Version++;
-    //                        break;
-    //                }
-    //            }
-
-    //        }
-    //    }
-    //    catch(System.Exception ex) 
-    //    {
-    //        throw new System.Exception("Invalid, not find IAggregate ",ex);
-    //    }
-    //}
 }
