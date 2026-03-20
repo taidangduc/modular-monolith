@@ -1,25 +1,43 @@
-﻿using Hangfire;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ModularMonolith.BuildingBlocks.Configuration;
+using ModularMonolith.BuildingBlocks.EFCore;
 
 namespace BuildingBlocks.EFCore;
 
-public static class Extensions
+public static class DbContextExtensions
 {
-    public static IServiceCollection AddCustomDbContext<T> (this IServiceCollection services)
-        where T : DbContext, IDbContext
+    public static void AddCustomDbContext<TDbContext>(
+        this IHostApplicationBuilder builder,
+        string name,
+        Action<IHostApplicationBuilder>? action = null,
+        bool haveInterceptors = false)
+        where TDbContext : DbContext
     {
-        var options = services.GetOptions<MssqlOptions>("mssql");
+        if (haveInterceptors)
+        {
+            builder.Services.AddScoped<IInterceptor, DispatchDomainEventInterceptor>();
+        }
 
-        services.AddDbContext<T>(x => x.UseSqlServer(options.ConnectionString));
+        builder.Services.AddDbContext<TDbContext>((sp, options) =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString(name));
 
-        services.AddScoped<ISeedManager, SeedManager>();
+            var interceptors = sp.GetServices<IInterceptor>().ToArray();
 
-        return services;
+            if(interceptors.Length != 0)
+            {
+                options.AddInterceptors(interceptors);
+            }
+        });
+
+        action?.Invoke(builder);
     }
+
 
     public static IApplicationBuilder UseMigration<TContext>(this IApplicationBuilder app)
         where TContext : DbContext, IDbContext

@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.Preference.ConfigurationOptions;
 using ModularMonolith.Preference.Grpc.Services;
 using ModularMonolith.Preference.Infrastructure;
 
@@ -9,9 +10,14 @@ namespace ModularMonolith.Preference.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static WebApplicationBuilder AddPreferenceModules(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddPreferenceModules(this WebApplicationBuilder builder, Action<PreferenceModuleOptions> configureOptions)
     {
-        builder.Services.AddCustomDbContext<PreferenceDbContext>();
+        var options = new PreferenceModuleOptions();
+        configureOptions(options);
+
+        builder.Services.Configure(configureOptions);
+
+        builder.AddCustomDbContext<PreferenceDbContext>(options.ConnectionStrings);
 
         builder.Services.AddValidatorsFromAssembly(typeof(PreferenceRoot).Assembly);
         builder.Services.AddCustomMediatR();

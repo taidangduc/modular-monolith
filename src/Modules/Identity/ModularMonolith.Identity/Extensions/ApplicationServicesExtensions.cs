@@ -1,26 +1,38 @@
 ﻿
 using BuildingBlocks.EFCore;
 using FluentValidation;
-using ModularMonolith.Identity.Infrastructure;
-using ModularMonolith.Identity.Infrastructure.Seeds;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.Identity.ConfigurationOptions;
+using ModularMonolith.Identity.Infrastructure;
+using ModularMonolith.Identity.Infrastructure.Seeds;
 
 namespace ModularMonolith.Identity.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static WebApplicationBuilder AddIdentityModules(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddIdentityModules(this WebApplicationBuilder builder, Action<IdentityModuleOptions> configureOptions)
     {
+        var settings = new IdentityModuleOptions();
+        configureOptions(settings);
+
+        builder.Services.Configure(configureOptions);
 
         builder.Services.AddScoped<IdentityEventMapper>();
         builder.Services.AddScoped<IDataSeeder, UserSeeder>();
 
         builder.Services.AddValidatorsFromAssembly(typeof(IdentityRoot).Assembly);
         builder.Services.AddMediatRCustom();
-        
-        builder.Services.AddCustomIdentityContext();
+
+        builder.Services.AddDbContext<IdentityDbContext>((sp, options) =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString(settings.ConnectionStrings));
+            options.UseOpenIddict();
+        });
+
         builder.AddCustomIdentityServer();
 
         builder.Services.Configure<ForwardedHeadersOptions>(options =>
