@@ -10,5 +10,5 @@ services:
       MSSQL_AGENT_ENABLED: 'true'
   networks:
     default:
-      name: sharp-cotton
+      name: modular-monolith
       external: true

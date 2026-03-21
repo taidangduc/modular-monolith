@@ -49,7 +49,7 @@ public static class EventBusCollectionExtensions
         {
             config.Host(
                 options.HostName, 
-                options.Port ?? 5176,
+                options.Port ?? 5672,
                 "/",
                 opt =>
                 {
