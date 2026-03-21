@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using ModularMonolith.BuildingBlocks.Constants;
+using ModularMonolith.BuildingBlocks.Core;
 using ModularMonolith.BuildingBlocks.Core.CQRS;
 using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity.Domain.Entities;
@@ -40,7 +40,7 @@ internal class CreateUserHandler : ICommandHandler<CreateUserCommand, Guid>
         };
 
         var identityResult = await _userManager.CreateAsync(user, request.Password);
-        var roleResult = await _userManager.AddToRoleAsync(user, IdentityConstant.Role.User);
+        var roleResult = await _userManager.AddToRoleAsync(user, Authentization.Roles.User);
 
         if (!identityResult.Succeeded)
         {

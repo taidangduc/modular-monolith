@@ -1,11 +1,10 @@
 using ModularMonolith.Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ModularMonolith.BuildingBlocks.Constants;
 using ModularMonolith.BuildingBlocks.EventBus;
 using static ModularMonolith.BuildingBlocks.EFCore.MigrateDbContextExtentions;
 using ModularMonolith.Identity.Domain.Events;
-
+using ModularMonolith.BuildingBlocks.Core;
 
 namespace ModularMonolith.Identity.Infrastructure.Seeds;
 
@@ -40,14 +39,14 @@ public class UserSeeder : IDataSeeder<IdentityDbContext>
     {
         if (!await _identityContext.Roles.AnyAsync())
         {
-            if (await _roleManager.RoleExistsAsync(IdentityConstant.Role.Admin) == false)
+            if (await _roleManager.RoleExistsAsync(Authentization.Roles.Admin) == false)
             {
-                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.Admin });
+                await _roleManager.CreateAsync(new Role { Name = Authentization.Roles.Admin });
             }
 
-            if (await _roleManager.RoleExistsAsync(IdentityConstant.Role.User) == false)
+            if (await _roleManager.RoleExistsAsync(Authentization.Roles.User) == false)
             {
-                await _roleManager.CreateAsync(new Role { Name = IdentityConstant.Role.User });
+                await _roleManager.CreateAsync(new Role { Name = Authentization.Roles.User });
             }
         }
     }
@@ -62,7 +61,7 @@ public class UserSeeder : IDataSeeder<IdentityDbContext>
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(InitialData.Users.First(), IdentityConstant.Role.Admin);
+                    await _userManager.AddToRoleAsync(InitialData.Users.First(), Authentization.Roles.Admin);
 
                     await _dispatcher.DispatchAsync(
                         new UserCreatedEvent(
@@ -78,7 +77,7 @@ public class UserSeeder : IDataSeeder<IdentityDbContext>
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(InitialData.Users.Last(), IdentityConstant.Role.User);
+                    await _userManager.AddToRoleAsync(InitialData.Users.Last(), Authentization.Roles.User);
 
                     await _dispatcher.DispatchAsync(
                         new UserCreatedEvent(
