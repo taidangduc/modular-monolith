@@ -1,5 +1,4 @@
 ﻿using ModularMonolith.Identity.Domain.Entities;
-using System.Linq;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;

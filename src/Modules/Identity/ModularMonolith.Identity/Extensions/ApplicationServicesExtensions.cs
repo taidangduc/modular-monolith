@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +14,7 @@ namespace ModularMonolith.Identity.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static WebApplicationBuilder AddIdentityModules(this WebApplicationBuilder builder, Action<IdentityModuleOptions> configureOptions)
+    public static WebApplicationBuilder AddIdentityModule(this WebApplicationBuilder builder, Action<IdentityModuleOptions> configureOptions)
     {
         var settings = new IdentityModuleOptions();
         configureOptions(settings);
@@ -29,11 +28,6 @@ public static class ApplicationServicesExtensions
         });
 
         builder.AddCustomIdentityServer();
-
-        builder.Services.Configure<ForwardedHeadersOptions>(options =>
-        {
-            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-        });
 
         builder.Services.AddScoped<IEventMapper, IdentityEventMapper>();
 
@@ -49,9 +43,13 @@ public static class ApplicationServicesExtensions
         return builder;
     }
 
-    public static async Task<WebApplication> UseIdentityModules(this WebApplication app)
+    public static async Task<WebApplication> UseIdentityModule(this WebApplication app)
     {
-        app.UseForwardedHeaders();
+        return app;
+    }
+    
+    public static async Task<WebApplication> UseIdentityModuleAsync(this WebApplication app)
+    {
         await app.MigrateAndSeedDbContextAsync<IdentityDbContext>();
 
         return app;

@@ -12,8 +12,7 @@ public sealed class IdentityEventMapper : IEventMapper
         return @event switch
         {
             UserCreatedEvent e => new UserCreatedIntegrationEvent(e.UserId, e.Name, e.Email),
-
-             _ => throw new ArgumentNullException(nameof(@event), $"No mapping found for event type {@event.GetType().FullName}")
+            _ => null
         };
     }
 }

@@ -1,5 +1,5 @@
-using Api.Extensions;
 using ModularMonolith.Api.ConfigurationOptions;
+using ModularMonolith.Api.Extensions;
 using ModularMonolith.Identity.Extensions;
 using ModularMonolith.Notification.Extensions;
 using ModularMonolith.Preference.Extensions;
@@ -7,28 +7,31 @@ using ModularMonolith.Profile.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+var services = builder.Services;
 
 var appSettings = new AppSettings();
 builder.Configuration.Bind(appSettings);
 
-builder.Services.Configure<AppSettings>(configuration);
+services.Configure<AppSettings>(configuration);
 
-builder.AddIdentityModules(opt => configuration.GetSection("Modules:Identity").Bind(opt));
-builder.AddNotificationModules((opt) => configuration.GetSection("Modules:Notification").Bind(opt));
-builder.AddProfileModules((opt) => configuration.GetSection("Modules:Profile").Bind(opt));
-builder.AddPreferenceModules((opt) => configuration.GetSection("Modules:Preference").Bind(opt));
-
-builder.AddApplicationSevices();
+builder
+.AddIdentityModule(opt => configuration.GetSection("Modules:Identity").Bind(opt))
+.AddNotificationModule((opt) => configuration.GetSection("Modules:Notification").Bind(opt))
+.AddProfileModule((opt) => configuration.GetSection("Modules:Profile").Bind(opt))
+.AddPreferenceModule((opt) => configuration.GetSection("Modules:Preference").Bind(opt))
+.AddApplicationServices(appSettings);
 
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-await app.UseIdentityModules();
-app.UseNotificationModules();
-app.UseProfileModules();
-app.UsePreferenceModules();
-app.UseApplicationServices();
+app
+.UseNotificationModule()
+.UseProfileModule()
+.UsePreferenceModule()
+.UseApplicationServices();
+
+await app.UseIdentityModuleAsync();
 
 app.Run();

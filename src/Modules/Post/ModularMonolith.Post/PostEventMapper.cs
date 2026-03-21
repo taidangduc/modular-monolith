@@ -7,10 +7,9 @@ public class PostEventMapper : IEventMapper
 {
     public IntegrationEvent? MapToIntegrationEvent(DomainEvent @event)
     {
-        switch (@event)
+        return @event switch
         {
-            default:
-                return null;
-        }
+            _ => null
+        };
     }
 }

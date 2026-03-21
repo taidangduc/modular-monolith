@@ -10,7 +10,7 @@ namespace ModularMonolith.Notification.Extensions;
 
 public static class ApplicationServiceExtensions
 {
-    public static WebApplicationBuilder AddNotificationModules(this WebApplicationBuilder builder, Action<NotificationModuleOptions> configureOptions)
+    public static WebApplicationBuilder AddNotificationModule(this WebApplicationBuilder builder, Action<NotificationModuleOptions> configureOptions)
     {
         var options = new NotificationModuleOptions();
         configureOptions(options);
@@ -29,7 +29,7 @@ public static class ApplicationServiceExtensions
 
         return builder;
     }
-    public static WebApplication UseNotificationModules(this WebApplication app)
+    public static WebApplication UseNotificationModule(this WebApplication app)
     {
         return app;
     }

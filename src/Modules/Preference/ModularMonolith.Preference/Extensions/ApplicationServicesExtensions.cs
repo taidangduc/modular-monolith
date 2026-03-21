@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using ModularMonolith.BuildingBlocks.EFCore;
+using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Preference.ConfigurationOptions;
 using ModularMonolith.Preference.Grpc.Services;
 using ModularMonolith.Preference.Infrastructure;
@@ -10,7 +11,7 @@ namespace ModularMonolith.Preference.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static WebApplicationBuilder AddPreferenceModules(this WebApplicationBuilder builder, Action<PreferenceModuleOptions> configureOptions)
+    public static WebApplicationBuilder AddPreferenceModule(this WebApplicationBuilder builder, Action<PreferenceModuleOptions> configureOptions)
     {
         var options = new PreferenceModuleOptions();
         configureOptions(options);
@@ -19,6 +20,8 @@ public static class ApplicationServicesExtensions
 
         builder.AddCustomDbContext<PreferenceDbContext>(options.ConnectionStrings);
 
+        builder.Services.AddScoped<IEventMapper, PreferenceEventMapper>();
+
         builder.Services.AddValidatorsFromAssembly(typeof(PreferenceRoot).Assembly);
         builder.Services.AddCustomMediatR();
 
@@ -26,7 +29,7 @@ public static class ApplicationServicesExtensions
 
         return builder;
     }
-    public static WebApplication UsePreferenceModules(this WebApplication app)
+    public static WebApplication UsePreferenceModule(this WebApplication app)
     {
         app.MapGrpcService<PreferenceService>();
 
