@@ -4,8 +4,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ModularMonolith.BuildingBlocks.EventBus;
 using ModularMonolith.Identity.ConfigurationOptions;
 using ModularMonolith.Identity.Infrastructure;
+using ModularMonolith.Identity.Infrastructure.HostServices;
+using ModularMonolith.Identity.Infrastructure.Seeds;
+using static ModularMonolith.BuildingBlocks.EFCore.MigrateDbContextExtentions;
 
 namespace ModularMonolith.Identity.Extensions;
 
@@ -17,12 +21,6 @@ public static class ApplicationServicesExtensions
         configureOptions(settings);
 
         builder.Services.Configure(configureOptions);
-
-        builder.Services.AddScoped<IdentityEventMapper>();
-        //builder.Services.AddScoped<IDataSeeder, UserSeeder>();
-
-        builder.Services.AddValidatorsFromAssembly(typeof(IdentityRoot).Assembly);
-        builder.Services.AddMediatRCustom();
 
         builder.Services.AddDbContext<IdentityDbContext>((sp, options) =>
         {
@@ -37,15 +35,24 @@ public static class ApplicationServicesExtensions
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
         });
 
-        //builder.Services.AddHostedService<ClientAppSeeder>();
+        builder.Services.AddScoped<IEventMapper, IdentityEventMapper>();
+
+        // migration
+        builder.Services.AddScoped<IDataSeeder<IdentityDbContext>, UserSeeder>();
+
+        builder.Services.AddValidatorsFromAssembly(typeof(IdentityRoot).Assembly);
+        builder.Services.AddMediatRCustom();
+
+        // hostservices
+        builder.Services.AddHostedService<SeedDataHostServices>();
 
         return builder;
     }
 
-    public static WebApplication UseIdentityModules(this WebApplication app)
+    public static async Task<WebApplication> UseIdentityModules(this WebApplication app)
     {
         app.UseForwardedHeaders();
-        //app.UseMigration<IdentityDbContext>();
+        await app.MigrateAndSeedDbContextAsync<IdentityDbContext>();
 
         return app;
     }

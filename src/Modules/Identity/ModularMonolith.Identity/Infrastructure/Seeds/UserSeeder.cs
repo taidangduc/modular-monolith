@@ -3,27 +3,29 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ModularMonolith.BuildingBlocks.Constants;
 using ModularMonolith.BuildingBlocks.EventBus;
+using static ModularMonolith.BuildingBlocks.EFCore.MigrateDbContextExtentions;
+using ModularMonolith.Identity.Domain.Events;
 
 
 namespace ModularMonolith.Identity.Infrastructure.Seeds;
 
-public class UserSeeder 
+public class UserSeeder : IDataSeeder<IdentityDbContext>
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
-    private readonly IEventDispatcher _eventDispatcher;
+    private readonly IEventDispatcher _dispatcher;
     private readonly IdentityDbContext _identityContext;
 
-    public UserSeeder(UserManager<User> userManager,RoleManager<Role> roleManager,
-        IEventDispatcher eventDispatcher, IdentityDbContext identityContext)
+    public UserSeeder(UserManager<User> userManager, RoleManager<Role> roleManager,
+        IEventDispatcher dispatcher, IdentityDbContext identityContext)
     {
         _userManager = userManager;
         _roleManager = roleManager;
-        _eventDispatcher = eventDispatcher;
+        _dispatcher = dispatcher;
         _identityContext = identityContext;
     }
 
-    public async Task SeedAllAsync()
+    public async Task SeedAsync(CancellationToken cancellationToken)
     {
         var pendingMigrations = await _identityContext.Database.GetPendingMigrationsAsync();
 
@@ -54,41 +56,35 @@ public class UserSeeder
     {
         if (!await _identityContext.Users.AnyAsync())
         {
-            if (await _userManager.FindByNameAsync("tobih") == null)
+            if (await _userManager.FindByNameAsync("peter") == null)
             {
-                var result = await _userManager.CreateAsync(InitialData.Users.First(), "Admin@123456");
+                var result = await _userManager.CreateAsync(InitialData.Users.First(), "admin@123456");
 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(InitialData.Users.First(), IdentityConstant.Role.Admin);
 
-                    //await _eventDispatcher.SendAsync(
-                    //    new UserCreatedIntegrationEvent(
-                    //        InitialData.Users.First().Id,
-                    //        InitialData.Users.First().UserName!,
-                    //        InitialData.Users.First().FirstName +
-                    //        " " +
-                    //        InitialData.Users.First().LastName,
-                    //        InitialData.Users.First().Email!));
+                    await _dispatcher.DispatchAsync(
+                        new UserCreatedEvent(
+                            InitialData.Users.First().Id, 
+                            InitialData.Users.First().FirstName + " " + InitialData.Users.First().LastName, 
+                            InitialData.Users.First().Email!));
                 }
             }
 
-            if (await _userManager.FindByNameAsync("nonam") == null)
+            if (await _userManager.FindByNameAsync("mira") == null)
             {
-                var result = await _userManager.CreateAsync(InitialData.Users.Last(), "User@123456");
+                var result = await _userManager.CreateAsync(InitialData.Users.Last(), "user@123456");
 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(InitialData.Users.Last(), IdentityConstant.Role.User);
 
-                    //await _eventDispatcher.SendAsync(
-                    //      new UserCreatedIntegrationEvent(
-                    //          InitialData.Users.Last().Id,
-                    //          InitialData.Users.Last().UserName!,
-                    //          InitialData.Users.Last().FirstName +
-                    //          " " +
-                    //          InitialData.Users.Last().LastName,
-                    //          InitialData.Users.Last().Email!));
+                    await _dispatcher.DispatchAsync(
+                        new UserCreatedEvent(
+                            InitialData.Users.Last().Id, 
+                            InitialData.Users.Last().FirstName + " " + InitialData.Users.Last().LastName, 
+                            InitialData.Users.Last().Email!));
                 }
             }
         }

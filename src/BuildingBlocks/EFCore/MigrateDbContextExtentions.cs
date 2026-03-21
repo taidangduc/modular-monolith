@@ -1,78 +1,89 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ModularMonolith.BuildingBlocks.EFCore;
 
 public static class MigrateDbContextExtentions
 {
-    public static IApplicationBuilder UseMigration<TContext>(this IApplicationBuilder app)
-       where TContext : DbContext
+    public static async Task<IHost> MigrateDbContextAsync<TContext>(
+        this IHost host,
+        CancellationToken cancellationToken = default)
+            where TContext : DbContext
     {
-        MigrateAsync<TContext>(app.ApplicationServices).GetAwaiter().GetResult();
+        await using var scope = host.Services.CreateAsyncScope();
 
-        SeedAsync(app.ApplicationServices).GetAwaiter().GetResult();
-
-        return app;
-    }
-
-    private static async Task MigrateAsync<TContext>(IServiceProvider serviceProvider)
-        where TContext : DbContext
-    {
-        await using var scope = serviceProvider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<TContext>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
 
-        var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+        await MigrateAsync(context, logger, cancellationToken);
 
-        if (pendingMigrations.Any())
+        return host;
+    }
+    public static async Task<IHost> MigrateAndSeedDbContextAsync<TContext>(
+        this IHost host,
+        CancellationToken cancellationToken = default)
+            where TContext : DbContext
+    {
+        await using var scope = host.Services.CreateAsyncScope();
+        var context = scope.ServiceProvider.GetService<TContext>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
+
+        if (context is not null)
         {
-            logger.LogInformation("Applying {Count} pending migrations...", pendingMigrations.Count());
-
-            await context.Database.MigrateAsync();
-            logger.LogInformation("Migrations applied successfully.");
-        }
-    }
-
-    private static async Task SeedAsync(IServiceProvider serviceProvider)
-    {
-        await using var scope = serviceProvider.CreateAsyncScope();
-
-        var seedersManager = scope.ServiceProvider.GetRequiredService<ISeedManager>();
-
-        await seedersManager.ExecuteSeedAsync();
-    }
-
-    public interface ISeedManager
-    {
-        Task ExecuteSeedAsync();
-    }
-
-    public class SeedManager(
-    ILogger<SeedManager> logger,
-    IWebHostEnvironment env,
-    IServiceProvider serviceProvider
-    ) : ISeedManager
-
-    {
-        public async Task ExecuteSeedAsync()
-        {
-            await using var scope = serviceProvider.CreateAsyncScope();
-            var dataSeeders = scope.ServiceProvider.GetServices<IDataSeeder>();
-
-            foreach (var seeder in dataSeeders)
+            try
             {
-                logger.LogInformation("Seed {SeederName} is started.", seeder.GetType().Name);
-                await seeder.SeedAllAsync();
-                logger.LogInformation("Seed {SeederName} is completed.", seeder.GetType().Name);
+                await MigrateAsync(context, logger, cancellationToken);
+
+                var seeders = scope.ServiceProvider.GetServices<IDataSeeder<TContext>>();
+
+                if (seeders is null || !seeders.Any())
+                {
+                    logger.LogInformation("No seeders found for DbContext {DbContext}", typeof(TContext).Name);
+                    return host;
+                }
+
+                foreach (var seeder in seeders)
+                {
+                    logger.LogInformation("Seeding {Seeder} for DbContext {DbContext}", seeder.GetType().Name, typeof(TContext).Name);
+
+                    await seeder.SeedAsync(cancellationToken);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
+                throw;
             }
         }
+
+        return host;
     }
 
-    public interface IDataSeeder
+    public static async Task MigrateAsync<TContext>(TContext context, ILogger<TContext> logger, CancellationToken cancellationToken = default)
+       where TContext : DbContext
     {
-        Task SeedAllAsync();
+        var strategy = context.Database.CreateExecutionStrategy();
+
+        await strategy.ExecuteAsync(async () =>
+        {
+            var pendingMigrations = await context.Database.GetPendingMigrationsAsync(cancellationToken);
+
+            if (pendingMigrations.Any())
+            {
+                logger.LogInformation("Applying {Count} pending migrations...", pendingMigrations.Count());
+
+                await context.Database.MigrateAsync(cancellationToken);
+
+                logger.LogInformation("Database migrations applied successfully.");
+            }
+        });
+    }
+
+    public interface IDataSeeder<in TContext> where TContext : DbContext
+    {
+        Task SeedAsync(CancellationToken cancellationToken);
     }
 }

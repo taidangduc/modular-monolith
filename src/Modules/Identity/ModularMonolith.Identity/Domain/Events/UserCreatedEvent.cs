@@ -2,13 +2,9 @@
 
 namespace ModularMonolith.Identity.Domain.Events;
 
-public sealed class UserCreatedEvent : DomainEvent
+public sealed class UserCreatedEvent(Guid UserId, string Name, string Email) : DomainEvent
 {
-    public Guid UserId { get; }
-    public string Email { get; }
-    public UserCreatedEvent(Guid userId, string email)
-    {
-        UserId = userId;
-        Email = email;
-    }
+    public Guid UserId { get; } = UserId;
+    public string Name { get; } = Name;
+    public string Email { get; } = Email;
 }
